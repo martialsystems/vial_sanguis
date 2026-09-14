@@ -1,0 +1,44 @@
+{
+  "runtime_checks": [
+    {
+      "id": "unit-tests",
+      "argv": [".venv/bin/python", "-m", "pytest", "tests/", "-q"],
+      "timeout_s": 180,
+      "paths": [
+        "src/**",
+        "tests/**",
+        "README.md",
+        "AGENTS.md",
+        "pyproject.toml",
+        "vbd.runtime.json"
+      ]
+    },
+    {
+      "id": "fixture-run",
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "vial_sanguis",
+        "run",
+        "--arm",
+        "vampire",
+        "--mode",
+        "knn",
+        "--k",
+        "3",
+        "--generations",
+        "8",
+        "--n",
+        "40",
+        "--seed",
+        "1",
+        "--starve-at",
+        "3",
+        "--out",
+        "logs/fixture_g8.json"
+      ],
+      "timeout_s": 60,
+      "paths": ["src/**", "tests/**"]
+    }
+  ]
+}
