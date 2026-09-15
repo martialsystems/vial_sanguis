@@ -71,6 +71,27 @@ def run_generations(
     ceiling = cfg.ceiling()
     cap_armed = bool(cfg.kinship_cap) and cfg.kinship_cap_on != "recover"
     t_kinship_on = 0 if cap_armed else None
+    hold_run = 0
+    t_held_done = None
+    t_host_shift = None
+
+    def _note_hold(p_b: float, t: int) -> None:
+        nonlocal hold_run, t_held_done
+        if p_b >= cfg.held_biter_p:
+            hold_run += 1
+            if t_held_done is None and hold_run >= int(cfg.held_biter_w):
+                t_held_done = int(t)
+        else:
+            hold_run = 0
+
+    def _host_shift(t: int) -> bool:
+        if cfg.host_shift_at != "held":
+            return False
+        if t_held_done is not None and t > t_held_done:
+            return True
+        return t >= int(cfg.host_shift_t_fallback)
+
+    _note_hold(float(rec0["p_biter"]), int(rec0["t"]))
 
     for _step in range(cfg.generations):
         if extinct_rule(pop, float(ph.survive.mean()) if pop.n else 0.0, cfg):
@@ -104,7 +125,10 @@ def run_generations(
             break
         # Tear-film crowding uses living adults, never the egg pile.
         host_crowd = pop.n if (pop.t >= cfg.t_starve and not cfg.fruit_forever) else 0
-        egg_ph = phenotype(eggs, cfg, crowd_n=host_crowd)
+        egg_shift = _host_shift(eggs.t)
+        if egg_shift and t_host_shift is None:
+            t_host_shift = int(eggs.t)
+        egg_ph = phenotype(eggs, cfg, crowd_n=host_crowd, host_shift=egg_shift)
         draw = rng.random(eggs.n)
         survive = (draw < egg_ph.survive) & (egg_ph.v_load > 0.0)
         n_viable = int(survive.sum())
@@ -112,11 +136,12 @@ def run_generations(
         nxt = cap_uniform(live, ceiling, rng)
         pop = nxt
         live_crowd = pop.n if (pop.t >= cfg.t_starve and not cfg.fruit_forever) else 0
-        ph = phenotype(pop, cfg, crowd_n=live_crowd)
+        ph = phenotype(pop, cfg, crowd_n=live_crowd, host_shift=_host_shift(pop.t))
         rec = record_generation(
             pop, ph, pairing, cfg, h0, n_eggs=n_eggs, n_viable=n_viable
         )
         records.append(rec)
+        _note_hold(float(rec["p_biter"]), int(rec["t"]))
         if jsonl_fp is not None:
             jsonl_fp.write(json.dumps(rec) + "\n")
             jsonl_fp.flush()
@@ -141,6 +166,7 @@ def run_generations(
         "final_t": last["t"],
         "extinct": bool(last["extinct"]),
         "t_kinship_on": t_kinship_on,
+        "t_host_shift": t_host_shift,
         **times,
     }
 

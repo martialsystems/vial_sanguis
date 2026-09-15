@@ -68,6 +68,10 @@ class RunConfig:
     fert_a: float = 1.0
     fert_b: float = 0.35
     fert_d: float = 0.90
+    host_shift_at: str = "off"
+    host_shift_t_fallback: int = 1500
+    skin_tough: float = 1.0
+    clot_without_saliva: bool = False
 
     def payload(self) -> dict:
         return asdict(self)

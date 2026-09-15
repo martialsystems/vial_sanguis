@@ -25,6 +25,8 @@ Halt. Q2 and Q3 stay closed. Opening them, or adding factors, is out of spec.
 
 Cap after recover (`--cap-on-at recover`, phi_max still 0.25): seed 3 survived the crash (min n=13, recover t=16) and held biters at F=0.236, p_biter=0.857 at t=1,500. Seed 2 also held (F=0.238, p_biter=0.980). Seed 1 hit n=68 at t=11, then the cap vetoed all pairs (extinct t=12). Fruit-forever stayed clean. 10k on seeds 2 and 3: F stayed 0.234 / 0.235, p_biter=1, pierce still moved (0.71 to 1.18; 0.44 to 0.78), saliva still negative, rasp/detect/seek still at the ceiling. Immediate-cap 10k had seed 3 dead at t=9. This is a cap schedule test.
 
+Host shift after hold (`--host-shift-at held --skin-tough 2.0 --clot-without-saliva on`, delayed-cap seeds 2 and 3): frozen diet until t_held, then tougher intact skin and clotting of pooled blood without saliva. At 10k, F stayed 0.236 / 0.234. Saliva left the negative region (1.47 / 1.55) with heme load still on. Pierce did not keep rising; it fell below the no-shift 10k. p_biter collapsed (0.005 / 0.007) because bite payoff was halved. Fruit-forever: p_biter=0, shift never armed. Halt. No further hosts.
+
 ## Locks
 
 Frozen origin JSON (do not restamp). Seed-1 knn `t_first_biter=211`:
@@ -47,6 +49,8 @@ Later arms (new files only):
 - `logs/knn_cap_after_recover_1500_s{1,2,3}.json`
 - `logs/fruit_forever_cap_after_recover_400.json`
 - `logs/knn_cap_after_recover_10000_s{2,3}.json`
+- `logs/knn_hostshift_held_10000_s{2,3}.json`
+- `logs/fruit_forever_hostshift_held_400.json`
 
 Diet knobs (VBD-checked; frozen):
 

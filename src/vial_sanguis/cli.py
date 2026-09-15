@@ -43,6 +43,18 @@ def _parser() -> argparse.ArgumentParser:
     run.add_argument("--fruit-forever", action="store_true")
     run.add_argument("--bite-weight", type=float, default=1.0)
     run.add_argument("--n-floor", type=int, default=8)
+    run.add_argument(
+        "--host-shift-at",
+        choices=["off", "held"],
+        default="off",
+        help="after t_held (or t=1500): tougher skin and optional clotting",
+    )
+    run.add_argument("--skin-tough", type=float, default=1.0)
+    run.add_argument(
+        "--clot-without-saliva",
+        choices=["on", "off"],
+        default="off",
+    )
     rec = sub.add_parser(
         "reclock",
         help="recompute first-time meters on an existing summary JSON",
@@ -95,6 +107,9 @@ def main(argv: list[str] | None = None) -> int:
         fail_n_min=args.n_floor,
         bite_weight=args.bite_weight,
         n_ceiling=args.n if args.cap == "on" else 1200,
+        host_shift_at=str(args.host_shift_at),
+        skin_tough=float(args.skin_tough),
+        clot_without_saliva=args.clot_without_saliva == "on",
     )
     jsonl = out.with_suffix(".jsonl")
     result = run_generations(cfg, jsonl_path=jsonl)

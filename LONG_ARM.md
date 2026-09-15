@@ -13,6 +13,7 @@ next legal node: none
 
 Origin closed. Q1 immediate-cap finished. Immediate-cap 10k finished.
 Cap-after-recover (user-opened; not Q2/Q3) finished. 10k on surviving seeds finished.
+Host-shift after hold (user-opened; not Q2/Q3) finished. Halt.
 
 Q2 (blocks) and Q3 (extra QTLs) stay closed.
 An agent that opens Q2/Q3, adds factors, raises z_max, or cuts phi_max
@@ -43,6 +44,8 @@ Do not restamp. Origin seed-1 knn `t_first_biter=211`.
 - `logs/knn_cap_after_recover_1500_s{1,2,3}.json`
 - `logs/fruit_forever_cap_after_recover_400.json`
 - `logs/knn_cap_after_recover_10000_s{2,3}.json`
+- `logs/knn_hostshift_held_10000_s{2,3}.json`
+- `logs/fruit_forever_hostshift_held_400.json`
 
 ## Q1 immediate cap (phi_max=0.25)
 
@@ -65,6 +68,17 @@ Seed 2 kit was weak at t=1,500 (p_biter=0.013) and only fixed the kit in the 10k
 Seed 3 survived the crash (not t=9). Seed 1 recovered to n=68 then the cap vetoed all pairs. Fruit-forever: p_biter=0, digest and heme_safe did not increase.
 
 10k readout vs immediate-cap 10k (F about 0.23 to 0.24, pierce moved, saliva negative, seed 3 dead): rasp/detect/seek still at the ceiling. Pierce still moved (seed 2: 0.71 to 1.18; seed 3: 0.44 to 0.78). Saliva still negative. F stayed off 1. Seed 3 lived. This is a cap schedule test, not added factors.
+
+## Host shift after hold (skin-tough 2.0, clot without saliva)
+
+Delayed-cap seeds 2 and 3. Frozen diet until t_held, then tougher intact skin and clotting.
+
+| seed | t_held | t_host_shift | F@10000 | p_biter | pierce | saliva | heme_load |
+|-----:|-------:|-------------:|--------:|--------:|-------:|-------:|----------:|
+| 2 | 517 | 527 | 0.236 | 0.005 | -0.347 | 1.465 | 0.764 |
+| 3 | 884 | 894 | 0.234 | 0.007 | -0.445 | 1.553 | 0.782 |
+
+No-shift 10k pierce was 1.176 / 0.778. Pierce did not keep rising. Saliva left the negative region with heme load still on. F stayed under 0.9. Fruit-forever: p_biter=0, shift never armed. Success on the saliva clause. Halt. Do not invent hosts 2 to 4.
 
 ## Diet knobs (frozen)
 

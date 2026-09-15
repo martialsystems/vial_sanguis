@@ -90,6 +90,8 @@ def energy_channels(
     c_heme_in: float = 1.0,
     crowd_n: int = 0,
     k_tears: float = 0.0,
+    skin_tough: float = 1.0,
+    clot_without_saliva: bool = False,
 ) -> Energy:
     """Diet ladder. Wound and bite are blood access; calories go through digest.
 
@@ -109,16 +111,20 @@ def energy_channels(
         tears = tears * min(1.0, float(k_tears) / float(crowd_n))
     sweat = pos(fluid) * pos(rasp) * (0.25 + 0.10 * pos(seek))
     wound = pos(fluid) * pos(rasp) * (0.40 + 0.20 * pos(saliva))
-    bite = (
+    bite_access = (
         pos(rasp)
         * pos(pierce)
         * (0.15 + 0.85 * np.tanh(pos(saliva)))
         * (0.20 + 0.80 * np.tanh(pos(seek)))
     )
+    tough = max(float(skin_tough), 1e-12)
+    bite = bite_access / tough
     blood_access = wound + float(bite_weight) * bite
     usable_blood = blood_access * sigmoid(digest)
+    if clot_without_saliva:
+        usable_blood = usable_blood * np.tanh(pos(saliva))
     host = tears + sweat + usable_blood
-    heme_load = float(c_heme_in) * (wound + bite)
+    heme_load = float(c_heme_in) * (wound + bite_access)
     return Energy(
         fruit=fruit,
         tears=tears,
@@ -179,13 +185,19 @@ def _empty_ph(z: np.ndarray) -> Phenotype:
     )
 
 
-def phenotype(pop: Pop, cfg: RunConfig, crowd_n: int | None = None) -> Phenotype:
+def phenotype(
+    pop: Pop,
+    cfg: RunConfig,
+    crowd_n: int | None = None,
+    host_shift: bool = False,
+) -> Phenotype:
     z = additive_z(pop)
     if pop.n == 0:
         return _empty_ph(z)
     fruit_avail = fruit_available(pop.t, cfg)
     n_crowd = int(pop.n if crowd_n is None else crowd_n)
     k_tears = float(cfg.k_tears) if fruit_avail <= 0.0 else 0.0
+    shift = bool(host_shift) and cfg.host_shift_at != "off"
     e = energy_channels(
         z,
         fruit_avail,
@@ -193,6 +205,8 @@ def phenotype(pop: Pop, cfg: RunConfig, crowd_n: int | None = None) -> Phenotype
         cfg.c_heme_in,
         crowd_n=n_crowd,
         k_tears=k_tears,
+        skin_tough=float(cfg.skin_tough) if shift else 1.0,
+        clot_without_saliva=bool(cfg.clot_without_saliva) if shift else False,
     )
     heme_safe = z[:, I_HEME] if z.shape[1] > I_HEME else np.zeros(pop.n)
     v_iron = iron_viability(e.heme_load, heme_safe, cfg)

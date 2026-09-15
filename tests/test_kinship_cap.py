@@ -26,6 +26,9 @@ def test_kinship_cap_off_is_default() -> None:
     assert cfg.n_ceiling == 1200
     assert cfg.kinship_cap_on == "immediate"
     assert cfg.kinship_recover_n == 50
+    assert cfg.host_shift_at == "off"
+    assert cfg.skin_tough == 1.0
+    assert cfg.clot_without_saliva is False
 
 
 def test_kinship_cap_rejects_high_phi_pairs() -> None:

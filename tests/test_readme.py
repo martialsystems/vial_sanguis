@@ -46,6 +46,8 @@ def test_readme_question_first() -> None:
     assert "logs/vampire_10000_s{1,2,3}.json" in text
     assert "knn_cap_after_recover_1500" in text
     assert "--cap-on-at recover" in text
+    assert "hostshift_held" in text
+    assert "clot-without-saliva" in text
     assert "vampire flies evolve" not in text.lower()
     agents = (REPO / "AGENTS.md").read_text(encoding="utf-8")
     assert "—" not in agents
