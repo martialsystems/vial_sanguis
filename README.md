@@ -72,4 +72,4 @@ Success on seed 1 is: crash after starve (`min n <= 20` or extinction); if survi
 | `AGENTS.md` | Five laws |
 | `tests/` | Init, starve crash, extinction, IBD, bite cost, digest/heme, fruit-forever |
 
-Inspired by [fly_vial](https://github.com/martialsystems/fly_vial). Reimplemented; not a fork.
+
