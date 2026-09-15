@@ -51,6 +51,7 @@ def test_readme_question_first() -> None:
     assert "scab_held" in text or "Wounds closed after hold" in text
     assert "stayed on exudate" in text
     assert "1 of 2" in text or "1 of 2 seeds" in text
+    assert "exudate-after-hold cap" in text or "exudate_cap" in text
     assert "vampire flies evolve" not in text.lower()
     agents = (REPO / "AGENTS.md").read_text(encoding="utf-8")
     assert "—" not in agents

@@ -73,6 +73,7 @@ class RunConfig:
     skin_tough: float = 1.0
     clot_without_saliva: bool = False
     wound_after_hold: str = "open"
+    exudate_after_hold: str = "open"
 
     def payload(self) -> dict:
         return asdict(self)

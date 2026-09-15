@@ -58,6 +58,19 @@ def test_scab_zeros_wound_keeps_bite_and_heme_from_bite() -> None:
     assert float(scab_neg.usable_blood[0]) == 0.0
 
 
+def test_exudate_cap_zeros_tears_and_sweat() -> None:
+    z = _blood_z()
+    open_e = energy_channels(z, 0.0, 1.0)
+    capped = energy_channels(z, 0.0, 1.0, wound_scab=True, exudate_cap=True)
+    assert float(open_e.tears[0]) > 0.0
+    assert float(open_e.sweat[0]) > 0.0
+    assert float(capped.tears[0]) == 0.0
+    assert float(capped.sweat[0]) == 0.0
+    assert float(capped.wound[0]) == 0.0
+    assert float(capped.bite[0]) > 0.0
+    assert float(capped.host[0]) == float(capped.usable_blood[0])
+
+
 def test_phenotype_shift_off_ignores_cfg_skin() -> None:
     cfg = RunConfig(n=8, seed=1, host_shift_at="held", skin_tough=2.0, clot_without_saliva=True)
     rng = np.random.default_rng(1)

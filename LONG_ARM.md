@@ -14,7 +14,8 @@ next legal node: none
 Origin closed. Q1 immediate-cap finished. Immediate-cap 10k finished.
 Cap-after-recover (user-opened; not Q2/Q3) finished. 10k on surviving seeds finished.
 Host-shift after hold (user-opened; not Q2/Q3) finished.
-Wound scab after hold (user-opened; not Q2/Q3) finished. Halt.
+Wound scab after hold (user-opened; not Q2/Q3) finished.
+Scab plus exudate cap (user-opened; not Q2/Q3) finished. Halt. FAIL: both seeds died after shift.
 
 Q2 (blocks) and Q3 (extra QTLs) stay closed.
 An agent that opens Q2/Q3, adds factors, raises z_max, or cuts phi_max
@@ -49,6 +50,8 @@ Do not restamp. Origin seed-1 knn `t_first_biter=211`.
 - `logs/fruit_forever_hostshift_held_400.json`
 - `logs/knn_scab_held_10000_s{2,3}.json`
 - `logs/fruit_forever_scab_held_400.json`
+- `logs/knn_scab_exudate_cap_10000_s{2,3}.json`
+- `logs/fruit_forever_scab_exudate_cap_400.json`
 
 ## Q1 immediate cap (phi_max=0.25)
 
@@ -93,6 +96,19 @@ No-shift 10k pierce was 1.176 / 0.778. Pierce did not keep rising. Saliva left t
 | 3 | 884 | 894 | 0.234 | 1.000 | -0.017 | 1.768 | 1.719 |
 
 Wounds closed after hold, pierce rose with saliva on one seed; the other dropped pierce and stayed on exudate. Seed 3 could already clear intact skin. Seed 2 could not, and exudate still pays. 1 of 2. Do not average them into scabs creating vampires. Do not raise bite_weight. Graph closed. Halt.
+
+## Scab plus exudate cap after hold
+
+`--exudate-after-hold cap` with scab and clot. Delayed-cap seeds 2 and 3. skin_tough=1.0. bite_weight=1.0.
+
+| seed | t_held | t_host_shift | last live t | last n | extinct | pierce last live |
+|-----:|-------:|-------------:|------------:|-------:|---------|-----------------:|
+| 2 | 517 | 527 | 526 | 1,200 | t=527 | 0.216 |
+| 3 | 884 | 894 | 894 | 5 | t=895 | 0.292 |
+
+Seed 2: the shortcut was the refuge. Bite out of reach once tears/sweat were gone.
+Seed 3 also died. The closed vial is too hard. FAIL, not a cue to raise bite_weight.
+Fruit-forever: p_biter=0, shift never armed. Halt. No 20k. No seed 1.
 
 ## Diet knobs (frozen)
 

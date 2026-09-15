@@ -41,6 +41,7 @@ def test_long_arm_continue_is_this_repo_only() -> None:
     assert "Cap after recover" in text or "cap after recover" in text.lower()
     assert "Host shift after hold" in text
     assert "Wound scab after hold" in text
+    assert "Scab plus exudate cap" in text
     agents = (REPO / "AGENTS.md").read_text(encoding="utf-8")
     assert "Autonomous continue is allowed only along LONG_ARM.md." in agents
     assert "Curiosity is not a transition." in agents

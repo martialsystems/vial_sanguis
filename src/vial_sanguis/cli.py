@@ -61,6 +61,12 @@ def _parser() -> argparse.ArgumentParser:
         default="open",
         help="after host-shift: open pools or scab (energy_wound=0)",
     )
+    run.add_argument(
+        "--exudate-after-hold",
+        choices=["open", "cap"],
+        default="open",
+        help="after host-shift: keep or zero tears and sweat",
+    )
     rec = sub.add_parser(
         "reclock",
         help="recompute first-time meters on an existing summary JSON",
@@ -117,6 +123,7 @@ def main(argv: list[str] | None = None) -> int:
         skin_tough=float(args.skin_tough),
         clot_without_saliva=args.clot_without_saliva == "on",
         wound_after_hold=str(args.wound_after_hold),
+        exudate_after_hold=str(args.exudate_after_hold),
     )
     jsonl = out.with_suffix(".jsonl")
     result = run_generations(cfg, jsonl_path=jsonl)
