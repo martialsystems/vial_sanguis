@@ -16,7 +16,11 @@ These laws live in pytest (`tests/test_five_laws.py`) and in the VBD fixture. Th
 
 v1 is autosomal-only. Free recombination. Pair-based Mendelian. `--cap off` is the default: ceiling clips from above, shortage is real.
 
-Locked seed-1 commands write `logs/vampire_2500_s1.json` and `logs/random_2500_s1.json`. Those JSON files are local (gitkeep only). Seed 1 knn: min n=3, t_recover=28, t_first_biter=211, t_heme_safe_rise=695, majority biters t=1,468, F=1.000 at t=2,500. Seed 1 random: extinct t=11. Do not restamp those numbers. Seeds 2 and 3 write `logs/vampire_2500_s2.json` and friends. They do not replace seed 1. k-NN seeds 2 and 3 also recovered and ended at F=1.000 with majority biters (min n=18 and 13). Random seeds 2 and 3 recovered from min n=6 with a transient first biter and final p_biter=0.
+Locked seed-1 commands write `logs/vampire_2500_s1.json` and `logs/random_2500_s1.json`. Those JSON files are local (gitkeep only). Seed 1 knn: min n=3, t_recover=28, t_first_biter=211, t_heme_safe_rise=695, majority biters t=1,468, F=1.000 at t=2,500. Seed 1 random: extinct t=11. Do not restamp those numbers. Extra meters: `t_held_biter` (p_biter >= 0.05 for 10 gens), tax-gated `t_heme_safe_rise` (host blood calories and heme_safe). `reclock` restamps meters only.
+
+Hypothesis knobs are frozen. Do not retune k_tears or bite_weight to make random keep the kit. Survival, extinction, F=1, and random losing biters are answers. Change an environment factor only when it is blocking the question (ladder inversion, infinite tears, secret fruit, dirty fruit-forever). The heme clock is a meter.
+
+Seeds 2 and 3 write `logs/vampire_2500_s2.json` and friends. They do not replace seed 1. k-NN recovered on seeds 1 to 3, F=1.000, majority bite kit. Random recovered on seeds 2 and 3 from min n=6 with a flicker and no hold.
 
 Do not add plotting UI until the crash / exudate-recovery / rasp-before-pierce / bite-last order is true on a surviving arm, or extinction is logged. `digest` and `heme_safe` are extra QTLs, not a saliva collapse.
 

@@ -44,3 +44,39 @@ def test_cli_tiny_run(tmp_path: Path) -> None:
     assert out.with_suffix(".jsonl").is_file()
     lines = out.with_suffix(".jsonl").read_text(encoding="utf-8").strip().splitlines()
     assert len(lines) == len(payload["generations"])
+    assert "t_held_biter" in payload
+    assert "t_heme_safe_rise_mean" in payload
+
+
+def test_cli_reclock(tmp_path: Path) -> None:
+    path = tmp_path / "run.json"
+    path.write_text(
+        json.dumps(
+            {
+                "config": {"t_starve": 5, "fruit_forever": False},
+                "generations": [
+                    {
+                        "t": 16,
+                        "n": 50,
+                        "p_biter": 0.0,
+                        "mean_energy_wound": 0.01,
+                        "mean_energy_bite": 0.0,
+                        "qtl_mean": {"heme_safe": 0.2},
+                    },
+                    {
+                        "t": 80,
+                        "n": 400,
+                        "p_biter": 0.0,
+                        "mean_energy_wound": 0.4,
+                        "mean_energy_bite": 0.0,
+                        "qtl_mean": {"heme_safe": 0.2},
+                    },
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    assert main(["reclock", str(path)]) == 0
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    assert payload["t_heme_safe_rise_mean"] == 16
+    assert payload["t_heme_safe_rise"] == 80

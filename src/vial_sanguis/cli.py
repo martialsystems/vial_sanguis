@@ -4,10 +4,12 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
 from vial_sanguis.config import RunConfig
+from vial_sanguis.metrics import stamp_clocks
 from vial_sanguis.population import run_generations, write_run
 
 BANNER = (
@@ -33,6 +35,11 @@ def _parser() -> argparse.ArgumentParser:
     run.add_argument("--fruit-forever", action="store_true")
     run.add_argument("--bite-weight", type=float, default=1.0)
     run.add_argument("--n-floor", type=int, default=8)
+    rec = sub.add_parser(
+        "reclock",
+        help="recompute first-time meters on an existing summary JSON",
+    )
+    rec.add_argument("path", type=Path)
     return p
 
 
@@ -44,6 +51,19 @@ def _mode_name(arm: str, mode: str) -> str:
 
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
+    if args.cmd == "reclock":
+        path = Path(args.path)
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        stamp_clocks(payload)
+        write_run(payload, path)
+        print(
+            f"t_first_biter={payload.get('t_first_biter')} "
+            f"t_held_biter={payload.get('t_held_biter')} "
+            f"t_majority_biter={payload.get('t_majority_biter')} "
+            f"t_heme_safe_rise={payload.get('t_heme_safe_rise')} "
+            f"t_heme_safe_rise_mean={payload.get('t_heme_safe_rise_mean')}"
+        )
+        return 0
     if args.cmd != "run":
         return 2
     out = Path(args.out)
@@ -71,6 +91,7 @@ def main(argv: list[str] | None = None) -> int:
         f"p_exudate={last['p_exudate']:.3f} p_biter={last['p_biter']:.3f} "
         f"t_crash={result['t_crash']} min_n={result['min_n']} "
         f"t_recover={result['t_recover']} t_first_biter={result['t_first_biter']} "
+        f"t_held_biter={result['t_held_biter']} "
         f"t_heme_safe_rise={result['t_heme_safe_rise']} "
         f"extinct={result['extinct']}"
     )

@@ -158,18 +158,35 @@ def record_generation(
     return {k: _py(v) if not isinstance(v, dict) else v for k, v in rec.items()}
 
 
+def _mean_host_blood(rec: dict) -> float:
+    return float(rec.get("mean_energy_wound", 0.0)) + float(rec.get("mean_energy_bite", 0.0))
+
+
 def first_times(records: list[dict], cfg: RunConfig) -> dict:
+    """Census clocks plus two gated meters.
+
+    t_first_biter: first p_biter > 0 (a flicker).
+    t_held_biter: first t where p_biter >= held_biter_p for held_biter_w consecutive generations.
+    t_heme_safe_rise: first t with host blood calories above eps_heme and mean heme_safe
+    at or above heme_rise. Mean-only crossing is t_heme_safe_rise_mean (diagnostic).
+    """
     t_crash = None
     t_min_n = None
     t_recover = None
     t_first_biter = None
     t_majority_biter = None
     t_heme_safe_rise = None
+    t_heme_safe_rise_mean = None
+    t_held_biter = None
     min_n = None
     crashed = False
+    hold_run = 0
+    hold_start: int | None = None
+    w_hold = max(1, int(cfg.held_biter_w))
     for rec in records:
         t = int(rec["t"])
         n = int(rec["n"])
+        p_b = float(rec.get("p_biter", 0.0))
         if t >= cfg.t_starve and not cfg.fruit_forever:
             if t_crash is None and n < 80:
                 t_crash = t
@@ -179,12 +196,27 @@ def first_times(records: list[dict], cfg: RunConfig) -> dict:
                 t_min_n = t
             if crashed and t_recover is None and n >= 400:
                 t_recover = t
-        if t_first_biter is None and float(rec["p_biter"]) > 0.0:
+        if t_first_biter is None and p_b > 0.0:
             t_first_biter = t
-        if t_majority_biter is None and float(rec["p_biter"]) >= 0.5:
+        if t_majority_biter is None and p_b >= 0.5:
             t_majority_biter = t
+        if p_b >= cfg.held_biter_p:
+            if hold_run == 0:
+                hold_start = t
+            hold_run += 1
+            if t_held_biter is None and hold_run >= w_hold:
+                t_held_biter = hold_start
+        else:
+            hold_run = 0
+            hold_start = None
         mean_heme = float(rec.get("qtl_mean", {}).get("heme_safe", 0.0))
-        if t_heme_safe_rise is None and mean_heme > cfg.heme_rise:
+        if t_heme_safe_rise_mean is None and mean_heme >= cfg.heme_rise:
+            t_heme_safe_rise_mean = t
+        if (
+            t_heme_safe_rise is None
+            and _mean_host_blood(rec) > cfg.eps_heme
+            and mean_heme >= cfg.heme_rise
+        ):
             t_heme_safe_rise = t
     return {
         "t_crash": t_crash,
@@ -192,6 +224,20 @@ def first_times(records: list[dict], cfg: RunConfig) -> dict:
         "min_n": min_n,
         "t_recover": t_recover,
         "t_first_biter": t_first_biter,
+        "t_held_biter": t_held_biter,
         "t_majority_biter": t_majority_biter,
         "t_heme_safe_rise": t_heme_safe_rise,
+        "t_heme_safe_rise_mean": t_heme_safe_rise_mean,
     }
+
+
+def config_from_payload(payload: dict) -> RunConfig:
+    names = set(RunConfig.__dataclass_fields__)
+    return RunConfig(**{k: v for k, v in payload.items() if k in names})
+
+
+def stamp_clocks(result: dict) -> dict:
+    """Recompute first-time meters on an existing run dict. Generation rows stay."""
+    cfg = config_from_payload(result.get("config") or {})
+    result.update(first_times(result.get("generations") or [], cfg))
+    return result

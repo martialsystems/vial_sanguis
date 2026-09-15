@@ -53,6 +53,9 @@ class RunConfig:
     c_heme_in: float = 0.30
     beta_heme: float = 2.0
     heme_rise: float = 0.12
+    eps_heme: float = 0.05
+    held_biter_p: float = 0.05
+    held_biter_w: int = 10
     k_tears: float = 40.0
     survive_steep_fruit: float = 8.0
     survive_thresh_fruit: float = 0.40

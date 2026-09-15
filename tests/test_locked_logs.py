@@ -28,8 +28,11 @@ def test_vampire_seed1_order_if_present() -> None:
     assert int(run["t_first_biter"]) > int(run["t_recover"])
     rec = next(g for g in run["generations"] if g["t"] == run["t_first_biter"])
     assert rec["qtl_mean"]["rasp"] > rec["qtl_mean"]["pierce"]
+    assert run.get("t_held_biter") is not None
     if run["t_heme_safe_rise"] is not None:
-        assert int(run["t_heme_safe_rise"]) > int(run["t_first_biter"])
+        rec_h = next(g for g in run["generations"] if g["t"] == run["t_heme_safe_rise"])
+        blood = float(rec_h["mean_energy_wound"]) + float(rec_h["mean_energy_bite"])
+        assert blood > 0.05
 
 
 def test_random_seed1_crash_if_present() -> None:
@@ -53,6 +56,15 @@ def test_seeds_2_and_3_if_present() -> None:
             assert int(knn["t_first_biter"]) > int(knn["t_recover"])
             rec = next(g for g in knn["generations"] if g["t"] == knn["t_first_biter"])
             assert rec["qtl_mean"]["rasp"] > rec["qtl_mean"]["pierce"]
+            assert knn.get("t_held_biter") is not None
+            if knn.get("t_heme_safe_rise") is not None:
+                rec_h = next(g for g in knn["generations"] if g["t"] == knn["t_heme_safe_rise"])
+                blood = float(rec_h["mean_energy_wound"]) + float(rec_h["mean_energy_bite"])
+                assert blood > 0.05
+        if not rand["extinct"]:
+            last = rand["generations"][-1]
+            if float(last["p_biter"]) < 0.05:
+                assert rand.get("t_held_biter") is None
 
 
 def test_fruit_forever_if_present() -> None:
