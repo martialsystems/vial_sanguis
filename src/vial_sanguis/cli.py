@@ -60,6 +60,7 @@ def main(argv: list[str] | None = None) -> int:
             f"t_first_biter={payload.get('t_first_biter')} "
             f"t_held_biter={payload.get('t_held_biter')} "
             f"t_majority_biter={payload.get('t_majority_biter')} "
+            f"t_wound_load={payload.get('t_wound_load')} "
             f"t_heme_safe_rise={payload.get('t_heme_safe_rise')} "
             f"t_heme_safe_rise_mean={payload.get('t_heme_safe_rise_mean')}"
         )

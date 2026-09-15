@@ -29,6 +29,8 @@ def test_vampire_seed1_order_if_present() -> None:
     rec = next(g for g in run["generations"] if g["t"] == run["t_first_biter"])
     assert rec["qtl_mean"]["rasp"] > rec["qtl_mean"]["pierce"]
     assert run.get("t_held_biter") is not None
+    assert run.get("t_wound_load") is not None
+    assert int(run["t_wound_load"]) <= int(run["t_heme_safe_rise"])
     if run["t_heme_safe_rise"] is not None:
         rec_h = next(g for g in run["generations"] if g["t"] == run["t_heme_safe_rise"])
         blood = float(rec_h["mean_energy_wound"]) + float(rec_h["mean_energy_bite"])
@@ -57,7 +59,9 @@ def test_seeds_2_and_3_if_present() -> None:
             rec = next(g for g in knn["generations"] if g["t"] == knn["t_first_biter"])
             assert rec["qtl_mean"]["rasp"] > rec["qtl_mean"]["pierce"]
             assert knn.get("t_held_biter") is not None
+            assert knn.get("t_wound_load") is not None
             if knn.get("t_heme_safe_rise") is not None:
+                assert int(knn["t_wound_load"]) <= int(knn["t_heme_safe_rise"])
                 rec_h = next(g for g in knn["generations"] if g["t"] == knn["t_heme_safe_rise"])
                 blood = float(rec_h["mean_energy_wound"]) + float(rec_h["mean_energy_bite"])
                 assert blood > 0.05

@@ -37,6 +37,10 @@ def test_readme_question_first() -> None:
     assert "majority biters at t=1,468" in text
     assert "t_held_biter" in text
     assert "flicker" in text
+    assert "t_wound_load" in text
+    assert "Do not add generations to seed 1" in text
+    assert "vampire_10000_s" in text
+    assert "F < 0.9" in text
     assert "extinct at t=11" in text
     assert "p_biter=0" in text or "p_biter=0;" in text
     assert "Seeds 2 and 3" in text or "seeds 2 and 3" in text

@@ -16,9 +16,11 @@ These laws live in pytest (`tests/test_five_laws.py`) and in the VBD fixture. Th
 
 v1 is autosomal-only. Free recombination. Pair-based Mendelian. `--cap off` is the default: ceiling clips from above, shortage is real.
 
-Locked seed-1 commands write `logs/vampire_2500_s1.json` and `logs/random_2500_s1.json`. Those JSON files are local (gitkeep only). Seed 1 knn: min n=3, t_recover=28, t_first_biter=211, t_heme_safe_rise=695, majority biters t=1,468, F=1.000 at t=2,500. Seed 1 random: extinct t=11. Do not restamp those numbers. Extra meters: `t_held_biter` (p_biter >= 0.05 for 10 gens), tax-gated `t_heme_safe_rise` (host blood calories and heme_safe). `reclock` restamps meters only.
+Locked seed-1 commands write `logs/vampire_2500_s1.json` and `logs/random_2500_s1.json`. Those JSON files are local (gitkeep only). Seed 1 knn: min n=3, t_recover=28, t_first_biter=211, t_heme_safe_rise=695, majority biters t=1,468, F=1.000 at t=2,500. Seed 1 random: extinct t=11. Do not restamp those numbers. Extra meters: `t_held_biter` (p_biter >= 0.05 for 10 gens), `t_wound_load`, tax-gated `t_heme_safe_rise` (host blood calories and heme_safe). heme_safe tracks wounds as well as bites. Do not force t_heme_safe_rise after t_first_biter. `reclock` restamps meters only.
 
 Hypothesis knobs are frozen. Do not retune k_tears or bite_weight to make random keep the kit. Survival, extinction, F=1, and random losing biters are answers. Change an environment factor only when it is blocking the question (ladder inversion, infinite tears, secret fruit, dirty fruit-forever). The heme clock is a meter.
+
+k-NN is flicker, then a long rare-biter phase, then hold, then majority. Random can flicker and never hold. Do not add generations to seed 1 k-NN (n=3 to F=1 to kit fixed). Do not treat 2,500 as long-evo. A 5,000 to 10,000 generation arm (`vampire_10000_s*`) starts only after a vial holds biters with F < 0.9 at t=1,500. Until then a longer run watches an inbred kit. Kinship-cap is a new experiment, not a meter fix.
 
 Seeds 2 and 3 write `logs/vampire_2500_s2.json` and friends. They do not replace seed 1. k-NN recovered on seeds 1 to 3, F=1.000, majority bite kit. Random recovered on seeds 2 and 3 from min n=6 with a flicker and no hold.
 

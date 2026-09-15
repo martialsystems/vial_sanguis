@@ -2,22 +2,36 @@
 
 Under an explicit diet ladder and an allowed population crash, does a Drosophila-like sponging labellum evolve prestomal-tooth rasping and then a costly bite, and how many generations / how deep a bottleneck does that take?
 
-Diet ladder plus crash: exudate recovery is repeatable. Majority bite kit, on this engine, is k-NN plus founder IBD going to 1. It is not an origin of hematophagy, and it is not that random cannot bite. Random can touch the threshold and lose it.
+Diet ladder plus crash: exudate recovery is repeatable. Majority bite kit, on this engine, is k-NN plus founder IBD going to 1. Random can flicker and lose it.
 
-Six default vials (k=3, N=1,000, 2,500 generations, t_starve=5). Environment knobs are frozen. `t_first_biter` is any generation with p_biter > 0 (a flicker). `t_held_biter` is the first generation of a run with p_biter >= 0.05 for 10 consecutive generations. `t_heme_safe_rise` requires mean wound+bite calories above `eps_heme` and mean heme_safe >= 0.12.
+Six default vials (k=3, N=1,000, 2,500 generations, t_starve=5). Environment knobs are frozen. GraphForge is unpinned. VBD is the finish gate.
+
+`t_first_biter` is any generation with p_biter > 0 (a flicker). `t_held_biter` is the first generation of a run with p_biter >= 0.05 for 10 consecutive generations. `t_wound_load` is first t with mean energy_wound above `eps_heme`. `t_heme_safe_rise` requires mean wound+bite calories above `eps_heme` and mean heme_safe >= 0.12. heme_safe tracks heme load, which includes wounds. t_first_biter tracks the bite threshold. Do not force heme to wait on flicker.
 
 Seed 1 knn lock, do not restamp: census crashed to 3 at t=6, recovered at t=28, first biter at t=211 (mean rasp 0.575, mean pierce 0.027), heme_safe rose at t=695, majority biters at t=1,468. At t=2,500: n=1,200, F=1.000, p_biter=1. Seed 1 random went extinct at t=11 (min n=1). Fruit-forever to t=400: p_biter=0; digest and heme_safe did not increase. Logs are local: `logs/vampire_2500_s{1,2,3}.json`, `logs/random_2500_s{1,2,3}.json`.
 
-| seed | mate | min n | t_recover | flicker | t_held_biter | t_majority | t_heme_safe_rise | final F | final p_biter |
-|-----:|------|------:|----------:|--------:|-------------:|-----------:|-----------------:|--------:|--------------:|
-| 1 | knn | 3 | 28 | 211 | 1,108 | 1,468 | 695 | 1.000 | 1.000 |
-| 1 | random | 1 | | | | | | extinct t=11 | 0 |
-| 2 | knn | 18 | 22 | 412 | 638 | 1,211 | 297 | 1.000 | 0.914 |
-| 2 | random | 6 | 16 | 162 | | | | 0.821 | 0 |
-| 3 | knn | 13 | 21 | 792 | 1,111 | 1,301 | 901 | 1.000 | 0.998 |
-| 3 | random | 6 | 22 | 128 | | | | 0.830 | 0 |
+| seed | mate | min n | t_recover | flicker | t_held_biter | t_majority | t_wound_load | t_heme_safe_rise | final F | final p_biter |
+|-----:|------|------:|----------:|--------:|-------------:|-----------:|-------------:|-----------------:|--------:|--------------:|
+| 1 | knn | 3 | 28 | 211 | 1,108 | 1,468 | 28 | 695 | 1.000 | 1.000 |
+| 1 | random | 1 | | | | | | | extinct t=11 | 0 |
+| 2 | knn | 18 | 22 | 412 | 638 | 1,211 | 21 | 297 | 1.000 | 0.914 |
+| 2 | random | 6 | 16 | 162 | | | 15 | | 0.821 | 0 |
+| 3 | knn | 13 | 21 | 792 | 1,111 | 1,301 | 19 | 901 | 1.000 | 0.998 |
+| 3 | random | 6 | 22 | 128 | | | 22 | | 0.830 | 0 |
 
-On every surviving flicker generation, mean rasp exceeded mean pierce. Random flickers (128, 162) are not a feeding mode: no hold, final p_biter=0. Seed 2 knn mean-only heme trip at t=16 is not the tax-gated clock; that clock is t=297 with wound+bite calories 0.376. Seed 1 knn is one inbred line after a 3-fly bottleneck. Seeds 2 and 3 show the same k-NN end-state with milder crashes (n=18, n=13). Random recovered on seeds 2 and 3 from min n=6 with a flicker and no hold.
+k-NN does not go flicker to majority. It goes flicker, then a long rare-biter phase, then hold, then majority:
+
+| seed | flicker to held | held to majority |
+|-----:|----------------:|-----------------:|
+| 1 | 211 to 1,108 (897 gen) | 360 gen |
+| 2 | 412 to 638 (226 gen) | 573 gen |
+| 3 | 792 to 1,111 (319 gen) | 190 gen |
+
+The bite kit is a late fixation on an already recovered, already inbreeding census. Random can hit the flicker column and never enter the hold column.
+
+On every surviving flicker generation, mean rasp exceeded mean pierce. Seed 2 knn: wound-load t=21, heme tax t=297 (wound+bite 0.376, p_biter=0), bite flicker t=412. That heme clock is wound iron, not the t=16 mean-drift trip and not a bite-kit story. Seeds 1 and 3 are wound-first too (t_wound_load 28 and 19, before heme tax). Seed 1 knn is one inbred line after a 3-fly bottleneck. Seeds 2 and 3 show the same k-NN end-state with milder crashes (n=18, n=13). Random recovered on seeds 2 and 3 from min n=6 with a flicker and no hold.
+
+Do not add generations to seed 1 k-NN. It is done: n=3 to F=1 to kit fixed. 2,500 generations is not long-evo just because the number is big. At t=1,500 every k-NN vial that holds biters already has F=1.000. Random at t=1,500 has F about 0.74 to 0.76 and no hold. Start a long arm only after a vial that holds biters with F < 0.9 at t=1,500. Then 5,000 to 10,000 generations can ask whether saliva, digest, and heme_safe keep differentiating, or whether pierce deepens vs staying a rasp. That arm is a new lock (`vampire_10000_s*`), same frozen diet knobs, VBD still the gate. Until F can stay below 1, a longer run only watches an inbred bite kit sit there. A kinship-cap arm is a new question (does the kit survive if F cannot go to 1), not a meter fix.
 
 Closed vial of diploid cyclorrhaphan flies. Fruit is removed at `t_starve` (default 5). Most of the census starves. A rare tail can live on host exudates (tears, sweat, wounds). Additive QTLs for labellar rasp, fluid detection, saliva, host-seeking, a costly pierce, midgut proteolysis (`digest`), and heme/iron detox (`heme_safe`) can assemble a shallow-biting feeding mode. Hematophagy here is host-fluid feeding, including blood from wounds or shallow cuts.
 
@@ -38,7 +52,7 @@ Bite carries a standing pierce cost while `energy_bite` is below `eps`. `digest`
 
 Default QTL order: fruit_use, fluid_detect, rasp, pierce, saliva, seek, locomotion, fertility_circuit, stab, fa, digest, heme_safe. `digest` is not saliva. Mating is random or k-NN (`k=3`) on fruit_use plus locomotion before starve, and on `{fluid_detect, rasp, pierce, seek}` after. Load is excluded from similarity.
 
-Hypothesis knobs (no fruit after t_starve, no immigration, finite tears, digest on wound/bite calories, unused blood loads heme, unused pierce/digest/heme_safe cost, census may hit 0) are frozen after seed 1. Changing one is a new experiment with new lock names. Meter gates (`t_heme_safe_rise`, `t_held_biter`) may be recomputed on existing logs.
+Hypothesis knobs (no fruit after t_starve, no immigration, finite tears, digest on wound/bite calories, unused blood loads heme, unused pierce/digest/heme_safe cost, census may hit 0) are frozen after seed 1. Changing one is a new experiment with new lock names. Meter gates (`t_wound_load`, `t_heme_safe_rise`, `t_held_biter`) may be recomputed on existing logs.
 
 ## Defaults
 

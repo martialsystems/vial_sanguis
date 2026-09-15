@@ -26,6 +26,22 @@ def test_heme_clock_ignores_mean_trip_without_blood() -> None:
     times = first_times(recs, cfg)
     assert times["t_heme_safe_rise_mean"] == 16
     assert times["t_heme_safe_rise"] == 40
+    assert times["t_wound_load"] == 40
+
+
+def test_wound_load_does_not_wait_on_biters() -> None:
+    cfg = RunConfig(t_starve=5)
+    recs = [
+        _row(10, wound=0.02, heme=0.0, p_biter=0.0),
+        _row(20, wound=0.08, heme=0.0, p_biter=0.0),
+        _row(30, wound=0.40, heme=0.13, p_biter=0.0),
+        _row(40, wound=0.40, heme=0.13, p_biter=0.001),
+    ]
+    times = first_times(recs, cfg)
+    assert times["t_wound_load"] == 20
+    assert times["t_heme_safe_rise"] == 30
+    assert times["t_first_biter"] == 40
+    assert times["t_wound_load"] < times["t_heme_safe_rise"] < times["t_first_biter"]
 
 
 def test_held_biter_requires_persistence() -> None:

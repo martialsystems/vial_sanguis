@@ -167,8 +167,11 @@ def first_times(records: list[dict], cfg: RunConfig) -> dict:
 
     t_first_biter: first p_biter > 0 (a flicker).
     t_held_biter: first t where p_biter >= held_biter_p for held_biter_w consecutive generations.
+    t_wound_load: first t with mean energy_wound above eps_heme.
     t_heme_safe_rise: first t with host blood calories above eps_heme and mean heme_safe
     at or above heme_rise. Mean-only crossing is t_heme_safe_rise_mean (diagnostic).
+    heme_safe tracks heme load, including wounds. Do not force t_heme_safe_rise
+    after t_first_biter.
     """
     t_crash = None
     t_min_n = None
@@ -177,6 +180,7 @@ def first_times(records: list[dict], cfg: RunConfig) -> dict:
     t_majority_biter = None
     t_heme_safe_rise = None
     t_heme_safe_rise_mean = None
+    t_wound_load = None
     t_held_biter = None
     min_n = None
     crashed = False
@@ -210,6 +214,9 @@ def first_times(records: list[dict], cfg: RunConfig) -> dict:
             hold_run = 0
             hold_start = None
         mean_heme = float(rec.get("qtl_mean", {}).get("heme_safe", 0.0))
+        wound = float(rec.get("mean_energy_wound", 0.0))
+        if t_wound_load is None and wound > cfg.eps_heme:
+            t_wound_load = t
         if t_heme_safe_rise_mean is None and mean_heme >= cfg.heme_rise:
             t_heme_safe_rise_mean = t
         if (
@@ -226,6 +233,7 @@ def first_times(records: list[dict], cfg: RunConfig) -> dict:
         "t_first_biter": t_first_biter,
         "t_held_biter": t_held_biter,
         "t_majority_biter": t_majority_biter,
+        "t_wound_load": t_wound_load,
         "t_heme_safe_rise": t_heme_safe_rise,
         "t_heme_safe_rise_mean": t_heme_safe_rise_mean,
     }

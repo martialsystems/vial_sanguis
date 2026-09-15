@@ -80,3 +80,4 @@ def test_cli_reclock(tmp_path: Path) -> None:
     payload = json.loads(path.read_text(encoding="utf-8"))
     assert payload["t_heme_safe_rise_mean"] == 16
     assert payload["t_heme_safe_rise"] == 80
+    assert payload["t_wound_load"] == 80
