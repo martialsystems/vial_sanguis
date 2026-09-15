@@ -32,8 +32,10 @@ def test_long_arm_continue_is_this_repo_only() -> None:
     assert "Autonomous continue is allowed only along LONG_ARM.md." in text
     assert "Curiosity is not a transition." in text
     assert "Unfreezing a diet knob is a halt." in text
-    assert "There is no live autonomous continue." in text
+    assert "origin_done" in text
+    assert "Q1 kinship_cap" in text
     assert "vampire_10000" in text
+    assert "Curiosity is not a transition." in text
     agents = (REPO / "AGENTS.md").read_text(encoding="utf-8")
     assert "Autonomous continue is allowed only along LONG_ARM.md." in agents
     assert "Curiosity is not a transition." in agents

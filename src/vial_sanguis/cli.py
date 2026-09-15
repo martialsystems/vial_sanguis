@@ -23,9 +23,11 @@ def _parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="vial-sanguis", description=BANNER)
     sub = p.add_subparsers(dest="cmd", required=True)
     run = sub.add_parser("run", help="run a closed-vial experiment")
-    run.add_argument("--arm", default="vampire", choices=["vampire", "random"])
+    run.add_argument("--arm", default="vampire", choices=["vampire", "random", "knn"])
     run.add_argument("--mode", default="knn", choices=["knn", "random"])
     run.add_argument("--k", type=int, default=3)
+    run.add_argument("--kinship-cap", choices=["on", "off"], default="off")
+    run.add_argument("--phi-max", type=float, default=0.25)
     run.add_argument("--generations", type=int, default=2500)
     run.add_argument("--n", type=int, default=1000)
     run.add_argument("--seed", type=int, default=1)
@@ -44,6 +46,8 @@ def _parser() -> argparse.ArgumentParser:
 
 
 def _mode_name(arm: str, mode: str) -> str:
+    if arm == "knn":
+        return "assortative_knn"
     if arm == "random" or mode == "random":
         return "random"
     return "assortative_knn"
@@ -76,6 +80,8 @@ def main(argv: list[str] | None = None) -> int:
         fruit_forever=bool(args.fruit_forever),
         mating_mode=_mode_name(args.arm, args.mode),
         k=args.k,
+        kinship_cap=args.kinship_cap == "on",
+        phi_max=float(args.phi_max),
         arm=args.arm,
         cap=args.cap,
         n_floor=args.n_floor,

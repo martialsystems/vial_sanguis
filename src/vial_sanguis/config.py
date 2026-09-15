@@ -32,6 +32,8 @@ class RunConfig:
     u: float = 0.002
     mating_mode: str = "assortative_knn"
     k: int = 3
+    kinship_cap: bool = False
+    phi_max: float = 0.25
     d_cluster: float = 2.0
     m_max: int = 1
     arm: str = "vampire"

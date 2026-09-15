@@ -150,6 +150,7 @@ def record_generation(
         "max_bite": max_bite,
         "max_rasp": max_rasp,
         "accepted_pairs": int(n_acc),
+        "kinship_rejects": 0 if pairing is None else int(pairing.n_kinship_reject),
         "clusters": int(clusters),
         "n_eggs": int(n_eggs),
         "n_viable": int(n_viable),

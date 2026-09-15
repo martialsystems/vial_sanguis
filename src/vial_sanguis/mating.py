@@ -20,6 +20,7 @@ class Pairing:
     distance: np.ndarray
     n_failed_match: int
     n_accepted: int
+    n_kinship_reject: int = 0
 
 
 def mating_indices(t: int, cfg: RunConfig) -> tuple[int, ...]:
@@ -49,6 +50,26 @@ def pairwise_fm_distance(z_f: np.ndarray, z_m: np.ndarray, sigma0: np.ndarray) -
     return np.sqrt(np.square(delta).sum(axis=2))
 
 
+def pairwise_fm_phi(founder_f: np.ndarray, founder_m: np.ndarray) -> np.ndarray:
+    """Founder-allele kinship between each female and each male. Same definition as mean_pairwise_phi."""
+    n_f, k, _ = founder_f.shape
+    n_m = int(founder_m.shape[0])
+    if n_f == 0 or n_m == 0 or k == 0:
+        return np.zeros((n_f, n_m), dtype=np.float64)
+    acc = np.zeros((n_f, n_m), dtype=np.float64)
+    for loc in range(k):
+        mat_f = founder_f[:, loc, 0]
+        pat_f = founder_f[:, loc, 1]
+        mat_m = founder_m[:, loc, 0]
+        pat_m = founder_m[:, loc, 1]
+        acc += (mat_f[:, None] == mat_m[None, :]).astype(np.float64)
+        acc += (mat_f[:, None] == pat_m[None, :]).astype(np.float64)
+        acc += (pat_f[:, None] == mat_m[None, :]).astype(np.float64)
+        acc += (pat_f[:, None] == pat_m[None, :]).astype(np.float64)
+    acc *= 0.25 / k
+    return acc
+
+
 def _empty_pair(n_fail: int) -> Pairing:
     return Pairing(
         female_idx=np.empty(0, dtype=np.int64),
@@ -56,6 +77,7 @@ def _empty_pair(n_fail: int) -> Pairing:
         distance=np.empty(0, dtype=np.float64),
         n_failed_match=int(n_fail),
         n_accepted=0,
+        n_kinship_reject=0,
     )
 
 
@@ -80,14 +102,33 @@ def pair(
     chosen_m: list[int] = []
     chosen_d: list[float] = []
     n_fail = 0
+    n_kin_rej = 0
     knn_mode = cfg.mating_mode != "random"
     k_eff = min(int(cfg.k), int(m_idx.size))
     knn = None
-    if knn_mode and k_eff > 0:
+    if knn_mode and k_eff > 0 and not cfg.kinship_cap:
         knn = np.argpartition(dist, kth=k_eff - 1, axis=1)[:, :k_eff]
+    phi_fm = None
+    if cfg.kinship_cap:
+        phi_fm = pairwise_fm_phi(pop.founder_qtl_auto[f_idx], pop.founder_qtl_auto[m_idx])
 
     for local_f in order:
-        if knn_mode:
+        if cfg.kinship_cap:
+            cap = remaining > 0
+            kin_ok = phi_fm[local_f] <= cfg.phi_max
+            n_kin_rej += int(np.sum(cap & ~kin_ok))
+            cap = cap & kin_ok
+            legal = np.flatnonzero(cap)
+            if legal.size == 0:
+                n_fail += 1
+                continue
+            if knn_mode:
+                k_loc = min(int(cfg.k), int(legal.size))
+                take = legal[np.argpartition(dist[local_f, legal], kth=k_loc - 1)[:k_loc]]
+                pick = int(take[np.argmin(dist[local_f, take])])
+            else:
+                pick = int(rng.choice(legal))
+        elif knn_mode:
             cands = knn[local_f]
             legal = cands[remaining[cands] > 0]
             if legal.size == 0:
@@ -107,7 +148,9 @@ def pair(
         remaining[pick] -= 1
 
     if not chosen_f:
-        return _empty_pair(n_fail)
+        empty = _empty_pair(n_fail)
+        empty.n_kinship_reject = n_kin_rej
+        return empty
     fi = np.asarray(chosen_f, dtype=np.int64)
     mi = np.asarray(chosen_m, dtype=np.int64)
     d = np.asarray(chosen_d, dtype=np.float64)
@@ -117,4 +160,5 @@ def pair(
         distance=d,
         n_failed_match=n_fail,
         n_accepted=int(fi.size),
+        n_kinship_reject=n_kin_rej,
     )

@@ -59,4 +59,5 @@ def test_readme_question_first() -> None:
     assert "Do not reuse `vialforge/`" in agents or "Do not reuse vialforge" in agents
     assert "Verify-before-done is the finish gate." in agents
     assert "LONG_ARM.md" in agents
+    assert (REPO / "LONG_ARM.md").is_file()
     assert "Curiosity is not a transition." in agents
