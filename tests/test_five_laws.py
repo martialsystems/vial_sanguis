@@ -27,6 +27,20 @@ from vial_sanguis.population import cap_uniform, run_generations
 REPO = Path(__file__).resolve().parents[1]
 
 
+def test_long_arm_continue_is_this_repo_only() -> None:
+    text = (REPO / "LONG_ARM.md").read_text(encoding="utf-8")
+    assert "Autonomous continue is allowed only along LONG_ARM.md." in text
+    assert "Curiosity is not a transition." in text
+    assert "Unfreezing a diet knob is a halt." in text
+    assert "There is no live autonomous continue." in text
+    assert "vampire_10000" in text
+    agents = (REPO / "AGENTS.md").read_text(encoding="utf-8")
+    assert "Autonomous continue is allowed only along LONG_ARM.md." in agents
+    assert "Curiosity is not a transition." in agents
+    assert "Unfreezing a diet knob is a halt." in agents
+    assert "This repo only (not the home VBD pack):" in agents
+
+
 def test_no_graphforge_pin() -> None:
     assert not (REPO / "engine_pin.json").exists()
     assert not (REPO / "product_laws.py").exists()

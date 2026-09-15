@@ -30,8 +30,18 @@ Operator answer: verify-before-report only. Do not pin GraphForge. This engine h
 
 Verify-before-done is the finish gate.
 
+This repo only (not the home VBD pack):
+
+Autonomous continue is allowed only along LONG_ARM.md.
+Curiosity is not a transition.
+Unfreezing a diet knob is a halt.
+
+If `LONG_ARM.md` has no live path, stop. Do not invent the next arm.
+
 ## Verify
 
 `python3 ~/agent_laws_verify_before_done/vbd_gate.py check --app-root . --claim-done`
 
 `vbd.runtime.json` runs pytest and an 8-generation N=40 fixture. Do not use stock `/usr/bin/python3 -m pytest`.
+
+See `LONG_ARM.md`.

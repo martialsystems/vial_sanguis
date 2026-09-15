@@ -102,4 +102,5 @@ Success on seed 1 is: crash after starve (`min n <= 20` or extinction); if survi
 | `src/vial_sanguis/metrics.py` | F, phi, energies, first times |
 | `src/vial_sanguis/cli.py` | `python -m vial_sanguis run` and `reclock` |
 | `AGENTS.md` | Five laws in pytest/VBD, no GraphForge pin |
+| `LONG_ARM.md` | Only legal autonomous continue; currently none |
 | `tests/` | Init, starve, extinction, IBD, bite cost, digest/heme, clocks, five laws, fruit-forever |
