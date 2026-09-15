@@ -13,7 +13,8 @@ next legal node: none
 
 Origin closed. Q1 immediate-cap finished. Immediate-cap 10k finished.
 Cap-after-recover (user-opened; not Q2/Q3) finished. 10k on surviving seeds finished.
-Host-shift after hold (user-opened; not Q2/Q3) finished. Halt.
+Host-shift after hold (user-opened; not Q2/Q3) finished.
+Wound scab after hold (user-opened; not Q2/Q3) finished. Halt.
 
 Q2 (blocks) and Q3 (extra QTLs) stay closed.
 An agent that opens Q2/Q3, adds factors, raises z_max, or cuts phi_max
@@ -46,6 +47,8 @@ Do not restamp. Origin seed-1 knn `t_first_biter=211`.
 - `logs/knn_cap_after_recover_10000_s{2,3}.json`
 - `logs/knn_hostshift_held_10000_s{2,3}.json`
 - `logs/fruit_forever_hostshift_held_400.json`
+- `logs/knn_scab_held_10000_s{2,3}.json`
+- `logs/fruit_forever_scab_held_400.json`
 
 ## Q1 immediate cap (phi_max=0.25)
 
@@ -79,6 +82,17 @@ Delayed-cap seeds 2 and 3. Frozen diet until t_held, then tougher intact skin an
 | 3 | 884 | 894 | 0.234 | 0.007 | -0.445 | 1.553 | 0.782 |
 
 No-shift 10k pierce was 1.176 / 0.778. Pierce did not keep rising. Saliva left the negative region with heme load still on. F stayed under 0.9. Fruit-forever: p_biter=0, shift never armed. Success on the saliva clause. Halt. Do not invent hosts 2 to 4.
+
+## Wound scab after hold (close the wound niche)
+
+`--wound-after-hold scab --clot-without-saliva on`, skin-tough 1.0. Delayed-cap seeds 2 and 3.
+
+| seed | t_held | t_host_shift | F@10000 | p_biter | pierce@shift | pierce@10k | saliva@10k |
+|-----:|-------:|-------------:|--------:|--------:|-------------:|-----------:|-----------:|
+| 2 | 517 | 527 | 0.236 | 0.000 | 0.223 | -0.485 | 0.387 |
+| 3 | 884 | 894 | 0.234 | 1.000 | -0.017 | 1.768 | 1.719 |
+
+Seed 3: pierce increased after wounds closed. Seed 2: pierce went negative; bite energy 0. Fail on seed 2 is the bite threshold, not a cue to raise bite_weight. F stayed under 0.9. Fruit-forever: p_biter=0. Halt.
 
 ## Diet knobs (frozen)
 

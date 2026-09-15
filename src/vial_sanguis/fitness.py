@@ -92,6 +92,7 @@ def energy_channels(
     k_tears: float = 0.0,
     skin_tough: float = 1.0,
     clot_without_saliva: bool = False,
+    wound_scab: bool = False,
 ) -> Energy:
     """Diet ladder. Wound and bite are blood access; calories go through digest.
 
@@ -111,6 +112,8 @@ def energy_channels(
         tears = tears * min(1.0, float(k_tears) / float(crowd_n))
     sweat = pos(fluid) * pos(rasp) * (0.25 + 0.10 * pos(seek))
     wound = pos(fluid) * pos(rasp) * (0.40 + 0.20 * pos(saliva))
+    if wound_scab:
+        wound = np.zeros_like(wound)
     bite_access = (
         pos(rasp)
         * pos(pierce)
@@ -207,6 +210,7 @@ def phenotype(
         k_tears=k_tears,
         skin_tough=float(cfg.skin_tough) if shift else 1.0,
         clot_without_saliva=bool(cfg.clot_without_saliva) if shift else False,
+        wound_scab=bool(shift and cfg.wound_after_hold == "scab"),
     )
     heme_safe = z[:, I_HEME] if z.shape[1] > I_HEME else np.zeros(pop.n)
     v_iron = iron_viability(e.heme_load, heme_safe, cfg)

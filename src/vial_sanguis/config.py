@@ -72,6 +72,7 @@ class RunConfig:
     host_shift_t_fallback: int = 1500
     skin_tough: float = 1.0
     clot_without_saliva: bool = False
+    wound_after_hold: str = "open"
 
     def payload(self) -> dict:
         return asdict(self)

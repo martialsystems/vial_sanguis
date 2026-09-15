@@ -44,6 +44,20 @@ def test_clot_zeros_usable_blood_when_saliva_nonpositive() -> None:
     assert float(clotted.heme_load[0]) == float(open_pool.heme_load[0])
 
 
+def test_scab_zeros_wound_keeps_bite_and_heme_from_bite() -> None:
+    z = _blood_z()
+    open_w = energy_channels(z, 0.0, 1.0)
+    scab = energy_channels(z, 0.0, 1.0, wound_scab=True, clot_without_saliva=True)
+    assert float(open_w.wound[0]) > 0.0
+    assert float(scab.wound[0]) == 0.0
+    assert float(scab.bite[0]) > 0.0
+    assert float(scab.heme_load[0]) < float(open_w.heme_load[0])
+    z_neg = z.copy()
+    z_neg[0, I_SALIVA] = -0.5
+    scab_neg = energy_channels(z_neg, 0.0, 1.0, wound_scab=True, clot_without_saliva=True)
+    assert float(scab_neg.usable_blood[0]) == 0.0
+
+
 def test_phenotype_shift_off_ignores_cfg_skin() -> None:
     cfg = RunConfig(n=8, seed=1, host_shift_at="held", skin_tough=2.0, clot_without_saliva=True)
     rng = np.random.default_rng(1)

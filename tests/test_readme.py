@@ -48,6 +48,7 @@ def test_readme_question_first() -> None:
     assert "--cap-on-at recover" in text
     assert "hostshift_held" in text
     assert "clot-without-saliva" in text
+    assert "scab_held" in text or "wound-after-hold scab" in text
     assert "vampire flies evolve" not in text.lower()
     agents = (REPO / "AGENTS.md").read_text(encoding="utf-8")
     assert "—" not in agents

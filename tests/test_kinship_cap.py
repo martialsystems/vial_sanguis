@@ -29,6 +29,7 @@ def test_kinship_cap_off_is_default() -> None:
     assert cfg.host_shift_at == "off"
     assert cfg.skin_tough == 1.0
     assert cfg.clot_without_saliva is False
+    assert cfg.wound_after_hold == "open"
 
 
 def test_kinship_cap_rejects_high_phi_pairs() -> None:

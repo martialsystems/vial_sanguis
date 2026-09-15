@@ -27,6 +27,8 @@ Cap after recover (`--cap-on-at recover`, phi_max still 0.25): seed 3 survived t
 
 Host shift after hold (`--host-shift-at held --skin-tough 2.0 --clot-without-saliva on`, delayed-cap seeds 2 and 3): frozen diet until t_held, then tougher intact skin and clotting of pooled blood without saliva. At 10k, F stayed 0.236 / 0.234. Saliva left the negative region (1.47 / 1.55) with heme load still on. Pierce did not keep rising; it fell below the no-shift 10k. p_biter collapsed (0.005 / 0.007) because bite payoff was halved. Fruit-forever: p_biter=0, shift never armed. Halt. No further hosts.
 
+Wound scab after hold (`--wound-after-hold scab`, clot on, skin-tough 1.0): take away the wound shortcut. Seed 3: pierce rose after shift (-0.02 to 1.77), saliva 1.72, p_biter=1, F=0.234. Seed 2: pierce went more negative (-0.49), p_biter=0. That is a fail on that seed, not a cue to raise bite_weight. Fruit-forever clean. Halt.
+
 ## Locks
 
 Frozen origin JSON (do not restamp). Seed-1 knn `t_first_biter=211`:
@@ -51,6 +53,8 @@ Later arms (new files only):
 - `logs/knn_cap_after_recover_10000_s{2,3}.json`
 - `logs/knn_hostshift_held_10000_s{2,3}.json`
 - `logs/fruit_forever_hostshift_held_400.json`
+- `logs/knn_scab_held_10000_s{2,3}.json`
+- `logs/fruit_forever_scab_held_400.json`
 
 Diet knobs (VBD-checked; frozen):
 
