@@ -31,7 +31,17 @@ The bite kit is a late fixation on an already recovered, already inbreeding cens
 
 On every surviving flicker generation, mean rasp exceeded mean pierce. Seed 2 knn: wound-load t=21, heme tax t=297 (wound+bite 0.376, p_biter=0), bite flicker t=412. That heme clock is wound iron, not the t=16 mean-drift trip and not a bite-kit story. Seeds 1 and 3 are wound-first too (t_wound_load 28 and 19, before heme tax). Seed 1 knn is one inbred line after a 3-fly bottleneck. Seeds 2 and 3 show the same k-NN end-state with milder crashes (n=18, n=13). Random recovered on seeds 2 and 3 from min n=6 with a flicker and no hold.
 
-Do not add generations to seed 1 k-NN. It is done: n=3 to F=1 to kit fixed. 2,500 generations is not long-evo just because the number is big. At t=1,500 every k-NN vial that holds biters already has F=1.000. Random at t=1,500 has F about 0.74 to 0.76 and no hold. Start a long arm only after a vial that holds biters with F < 0.9 at t=1,500. Then 5,000 to 10,000 generations can ask whether saliva, digest, and heme_safe keep differentiating, or whether pierce deepens vs staying a rasp. That arm is a new lock (`vampire_10000_s*`), same frozen diet knobs, VBD still the gate. Until F can stay below 1, a longer run only watches an inbred bite kit sit there. A kinship-cap arm is a new question (does the kit survive if F cannot go to 1), not a meter fix.
+Do not add generations to seed 1 k-NN. It is done: n=3 to F=1 to kit fixed.
+
+## Long arm
+
+Halt. Q2 and Q3 stay closed. The origin headline above is not obsolete.
+
+Under kinship cap `phi_max=0.25`, a rasp-first kit can persist off F=1, and pierce can keep rising through 10,000 generations. That is the thing the F=1 vials could not show. Rasp, detect, and seek sat at the ceiling (clipped, not more deep time). Saliva stayed negative: antihemostasis was not selected on this ladder. This is not an origin of hematophagy, not saliva evolution, and not a claim that random would do the same.
+
+Q1 (knn, kinship-cap on, 1,500 generations): seeds 1 and 2 held with F@1500 = 0.244 and 0.240. Seed 3 extinct at t=9 (2-fly crash under a kinship veto; biological, logged). Fruit-forever stayed clean. Unlock used `t_held_biter` set and F@1500 < 0.9 on 2 of 3 seeds. Seed 2 was below the hold threshold at t=1,500 (p_biter=0.013) and only fixed the kit in the 10k tail.
+
+10k traces (seeds 1 and 2): F stayed about 0.24 to 0.23. Pierce deepened (0.40 to 0.90; -0.13 to 1.43) and bite energy rose. Seed 3 died at t=9 again. Graph said one 10k arm, then halt. Raising `z_max` or softening `phi_max` to save seed 3 is a new experiment, not a continue.
 
 Closed vial of diploid cyclorrhaphan flies. Fruit is removed at `t_starve` (default 5). Most of the census starves. A rare tail can live on host exudates (tears, sweat, wounds). Additive QTLs for labellar rasp, fluid detection, saliva, host-seeking, a costly pierce, midgut proteolysis (`digest`), and heme/iron detox (`heme_safe`) can assemble a shallow-biting feeding mode. Hematophagy here is host-fluid feeding, including blood from wounds or shallow cuts.
 

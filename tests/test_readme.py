@@ -39,8 +39,11 @@ def test_readme_question_first() -> None:
     assert "flicker" in text
     assert "t_wound_load" in text
     assert "Do not add generations to seed 1" in text
-    assert "vampire_10000_s" in text
-    assert "F < 0.9" in text
+    assert "vampire_10000_s" in text or "10,000 generations" in text
+    assert "phi_max=0.25" in text or "phi_max=0.25" in text.replace("`", "")
+    assert "only fixed the kit in the 10k tail" in text
+    assert "Saliva stayed negative" in text
+    assert "not obsolete" in text
     assert "extinct at t=11" in text
     assert "p_biter=0" in text or "p_biter=0;" in text
     assert "Seeds 2 and 3" in text or "seeds 2 and 3" in text

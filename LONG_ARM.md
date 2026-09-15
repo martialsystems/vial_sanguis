@@ -35,9 +35,10 @@ Advance: 2 of 3 seeds held biters with F@1500<0.9. Unlock long.
 | 2 | knn kinship-cap | 12 | 1,048 | 0.240 | 0.230 | 1.000 |
 | 3 | knn kinship-cap | 2 | | extinct t=9 | | 0 |
 
-Past t=1,500 with F off 1: rasp/fluid/seek already near the ceiling (flat). Pierce deepened (seed 1: 0.40 to 0.90; seed 2: -0.13 to 1.43). Bite energy rose. Saliva stayed negative. Digest and heme_safe were already high. Kit is background; pierce still moved. Halt. Do not invent Q4.
+Past t=1,500 with F off 1: rasp/fluid/seek already near the ceiling (clipped, not more deep time). Pierce deepened (seed 1: 0.40 to 0.90; seed 2: -0.13 to 1.43). Bite energy rose. Saliva stayed negative: antihemostasis not selected. Digest and heme_safe were already high. Seed 2 was below the hold threshold at t=1,500 (p_biter=0.013) and only fixed the kit in the 10k tail. Seed 3 dying at t=9 twice is the recipe plus a 2-fly crash under a kinship veto (biological; pairs existed at phi_max=0.25 on the other seeds). Halt. Do not invent Q4. Do not open Q2/Q3 after a successful unlock. Do not raise z_max. Do not soften phi_max to rescue seed 3.
 
-Claim ban: this is not an origin of hematophagy. The six-vial headline is not obsolete.
+Allowed claim: under kinship cap phi_max=0.25, a rasp-first kit can persist off F=1, and pierce can keep rising through 10k generations.
+Not allowed: origin of hematophagy, saliva evolution, or that random would do this too. The six-vial headline is not obsolete.
 
 ## Frozen
 
