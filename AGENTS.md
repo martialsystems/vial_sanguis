@@ -20,7 +20,7 @@ Locked seed-1 commands write `logs/vampire_2500_s1.json` and `logs/random_2500_s
 
 Hypothesis knobs are frozen. Do not retune k_tears or bite_weight to make random keep the kit. Survival, extinction, F=1, and random losing biters are answers. Change an environment factor only when it is blocking the question (ladder inversion, infinite tears, secret fruit, dirty fruit-forever). The heme clock is a meter.
 
-k-NN is flicker, then a long rare-biter phase, then hold, then majority. Random can flicker and never hold. Do not add generations to seed 1 k-NN (n=3 to F=1 to kit fixed). Do not treat 2,500 as long-evo. A 5,000 to 10,000 generation arm (`vampire_10000_s*`) starts only after a vial holds biters with F < 0.9 at t=1,500. Until then a longer run watches an inbred kit. Kinship-cap is a new experiment, not a meter fix.
+k-NN is flicker, then a long rare-biter phase, then hold, then majority. Random can flicker and never hold. Do not add generations to seed 1 k-NN (n=3 to F=1 to kit fixed). LONG_ARM.md state is halt. Next legal node is none. Do not open Q2/Q3.
 
 Seeds 2 and 3 write `logs/vampire_2500_s2.json` and friends. They do not replace seed 1. k-NN recovered on seeds 1 to 3, F=1.000, majority bite kit. Random recovered on seeds 2 and 3 from min n=6 with a flicker and no hold.
 
@@ -36,7 +36,7 @@ Autonomous continue is allowed only along LONG_ARM.md.
 Curiosity is not a transition.
 Unfreezing a diet knob is a halt.
 
-If `LONG_ARM.md` has no live path, stop. Do not invent the next arm.
+If `LONG_ARM.md` has no live path, stop. Do not invent the next arm. An agent that opens Q2/Q3 or adds factors is out of spec.
 
 ## Verify
 

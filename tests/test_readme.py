@@ -13,6 +13,11 @@ def test_readme_question_first() -> None:
     assert body.startswith(
         "Under an explicit diet ladder and an allowed population crash"
     )
+    first_para = body.split("\n## ", 1)[0]
+    assert "This is not an origin of hematophagy." in first_para
+    assert "## Origin" in text
+    assert "## Long arm" in text
+    assert "## Locks" in text
     assert "What it is not" not in text
     assert "—" not in text
     assert "Non-claims" in text
@@ -26,30 +31,19 @@ def test_readme_question_first() -> None:
     assert "logs/random_2500_s1.json" in text
     assert "--fruit-forever" in text
     assert "AGENTS.md" in text
-    assert "prestomal" in text.lower()
-    assert "digest" in text
-    assert "heme_safe" in text
-    assert "census crashed to 3 at t=6" in text
-    assert "first biter at t=211" in text
+    assert "t_first_biter=211" in text
     assert "mean rasp 0.575" in text
     assert "mean pierce 0.027" in text
+    assert "census crashed to 3 at t=6" in text.lower()
     assert "heme_safe rose at t=695" in text
     assert "majority biters at t=1,468" in text
-    assert "t_held_biter" in text
-    assert "flicker" in text
-    assert "t_wound_load" in text
-    assert "Do not add generations to seed 1" in text
-    assert "vampire_10000_s" in text or "10,000 generations" in text
-    assert "phi_max=0.25" in text or "phi_max=0.25" in text.replace("`", "")
-    assert "only fixed the kit in the 10k tail" in text
-    assert "Saliva stayed negative" in text
-    assert "not obsolete" in text
     assert "extinct at t=11" in text
-    assert "p_biter=0" in text or "p_biter=0;" in text
-    assert "Seeds 2 and 3" in text or "seeds 2 and 3" in text
     assert "F=1.000" in text
-    assert "min n=6" in text
-    assert "one inbred line after a 3-fly bottleneck" in text
+    assert "phi_max=0.25" in text
+    assert "only fixed the kit in the 10k tail" in text
+    assert "Saliva did not" in text or "saliva did not" in text
+    assert "t_starve | 5" in text or "t_starve | 5 |" in text
+    assert "logs/vampire_10000_s{1,2,3}.json" in text
     assert "vampire flies evolve" not in text.lower()
     agents = (REPO / "AGENTS.md").read_text(encoding="utf-8")
     assert "—" not in agents

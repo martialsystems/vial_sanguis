@@ -8,14 +8,38 @@ Unfreezing a diet knob is a halt.
 
 ## Status
 
-halt (10k arm finished)
-  origin_done headline unchanged
-  Q1 kinship_cap passed at phi_max=0.25 (2 of 3 seeds)
-  unlocked_long ran; Q2 and Q3 not opened
+state: halt
+next legal node: none
 
-legal_next: none. Stop.
+Origin question closed. Q1 kinship_cap finished. One 10k arm finished.
+Q2 (blocks) and Q3 (post-recovery mutation / extra QTLs) stay closed.
+An agent that opens Q2/Q3, adds factors, raises z_max, or softens phi_max
+because seed 3 died is out of spec.
 
-### Q1 table (phi_max=0.25)
+GraphForge stays unpinned. VBD is the finish gate.
+The six-vial origin headline is not obsolete.
+
+## Frozen origin JSON
+
+Do not restamp. Origin seed-1 knn `t_first_biter=211`.
+
+- `logs/vampire_2500_s1.json`
+- `logs/vampire_2500_s2.json`
+- `logs/vampire_2500_s3.json`
+- `logs/random_2500_s1.json`
+- `logs/random_2500_s2.json`
+- `logs/random_2500_s3.json`
+- `logs/fruit_forever_400_s1.json`
+
+## Later-arm JSON
+
+- `logs/knn_kinship_1500_s{1,2,3}.json`
+- `logs/knn_kinship_fruit_forever_400_s1.json`
+- `logs/knn_kinship_phi025_1500_s{1,2,3}.json`
+- `logs/knn_kinship_phi025_fruit_forever_400_s1.json`
+- `logs/vampire_10000_s{1,2,3}.json`
+
+## Q1 table (phi_max=0.25)
 
 | seed | arm | min n | held | F@1500 | p_biter |
 |-----:|-----|------:|-----:|-------:|--------:|
@@ -23,11 +47,9 @@ legal_next: none. Stop.
 | 2 | knn kinship-cap | 12 | 1,048 | 0.240 | 0.013 |
 | 3 | knn kinship-cap | 2 | | extinct t=9 | 0 |
 
-phi_max=0.125: seed 3 F@1500=0.120, flicker 598, no hold; seeds 1-2 extinct t=8. Fruit-forever (0.25): p_biter=0, digest and heme_safe did not increase.
+Seed 2 kit was weak at t=1,500 (p_biter=0.013) and only fixed the kit in the 10k tail.
 
-Advance: 2 of 3 seeds held biters with F@1500<0.9. Unlock long.
-
-### vampire_10000 (knn, kinship-cap on, phi_max=0.25)
+## vampire_10000
 
 | seed | arm | min n | held | F@1500 | F@10000 | p_biter@10000 |
 |-----:|-----|------:|-----:|-------:|--------:|--------------:|
@@ -35,55 +57,17 @@ Advance: 2 of 3 seeds held biters with F@1500<0.9. Unlock long.
 | 2 | knn kinship-cap | 12 | 1,048 | 0.240 | 0.230 | 1.000 |
 | 3 | knn kinship-cap | 2 | | extinct t=9 | | 0 |
 
-Past t=1,500 with F off 1: rasp/fluid/seek already near the ceiling (clipped, not more deep time). Pierce deepened (seed 1: 0.40 to 0.90; seed 2: -0.13 to 1.43). Bite energy rose. Saliva stayed negative: antihemostasis not selected. Digest and heme_safe were already high. Seed 2 was below the hold threshold at t=1,500 (p_biter=0.013) and only fixed the kit in the 10k tail. Seed 3 dying at t=9 twice is the recipe plus a 2-fly crash under a kinship veto (biological; pairs existed at phi_max=0.25 on the other seeds). Halt. Do not invent Q4. Do not open Q2/Q3 after a successful unlock. Do not raise z_max. Do not soften phi_max to rescue seed 3.
+Pierce still moved. Saliva did not. F stayed about 0.24. Recipe is 2-of-3.
 
-Allowed claim: under kinship cap phi_max=0.25, a rasp-first kit can persist off F=1, and pierce can keep rising through 10k generations.
-Not allowed: origin of hematophagy, saliva evolution, or that random would do this too. The six-vial headline is not obsolete.
+## Diet knobs (frozen)
 
-## Frozen
+t_starve=5, k_tears=40, bite_weight=1.0, c_pierce=0.05, c_digest=0.40,
+c_heme=0.40, c_heme_in=0.30, beta_heme=2.0, survive_steep_fruit=8.0,
+survive_thresh_fruit=0.40, survive_steep_host=250.0,
+survive_thresh_host=0.075, n_floor=8, n_ceiling=1200.
 
-t_starve, k_tears, bite_weight, c_pierce, c_digest, c_heme,
-c_heme_in, beta_heme, survive thresholds, n_floor, n_ceiling,
-seed-1 origin locks, five laws, no immigration, no stylet,
-no saliva collapse, no FlyWire/MaleCNS, no GraphForge pin.
+phi_max=0.25 is the Q1 cap (one numerical retune from 0.125), not a diet knob.
 
-phi_max default 0.25 is a Q1 cap, not a diet knob. 0.125 refused all pairs
-after the crash (numerical). One retune allowed; freeze 0.25.
-
-## Graph
-
-Q1 kinship_cap
-Q2 blocks (linkage), only if Q1 failed to hold biters at F<0.9
-Q3 post-recovery mutation / extra QTLs, only if Q1 and Q2 failed
-halt_no_long_evo if Q1 to Q3 all fail
-
-unlocked_long only if some new arm has t_held_biter set AND F(t=1500)<0.9
-on at least 2 of 3 seeds, fruit-forever clean, five laws green.
-Then one arm vampire_10000 on that recipe, seeds 1 to 3, stop.
-
-Do not start vampire_10000 until unlocked_long.
 Do not invent a Q4.
 Do not help random keep a kit.
 Do not call F=1 plus more generations long evolution.
-
-## Q1 CLI
-
-```text
-.venv/bin/python -m vial_sanguis run --arm knn --mode knn --kinship-cap on \
-    --phi-max 0.25 --generations 1500 --n 1000 --seed S --starve-at 5 \
-    --out logs/knn_kinship_1500_sS.json
-```
-
-Fruit-forever: same plus `--fruit-forever --generations 400 --out logs/knn_kinship_fruit_forever_400_s1.json`.
-
-New locks only. Never overwrite logs/vampire_2500_s1.json.
-
-## Halt
-
-If F(t=1500)>=0.9 on every holding arm after Q1 to Q3, or biters do not hold,
-or fruit-forever is dirty, or a diet knob changed, or a lock was restamped,
-or immigration appeared: halt. Leave the six-vial headline unchanged.
-
-## Meters
-
-Leave the first-crossing LESSONS.md note as-is. No further meter work is required for the origin headline.
