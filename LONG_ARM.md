@@ -92,7 +92,7 @@ No-shift 10k pierce was 1.176 / 0.778. Pierce did not keep rising. Saliva left t
 | 2 | 517 | 527 | 0.236 | 0.000 | 0.223 | -0.485 | 0.387 |
 | 3 | 884 | 894 | 0.234 | 1.000 | -0.017 | 1.768 | 1.719 |
 
-Seed 3: pierce increased after wounds closed. Seed 2: pierce went negative; bite energy 0. Fail on seed 2 is the bite threshold, not a cue to raise bite_weight. F stayed under 0.9. Fruit-forever: p_biter=0. Halt.
+Wounds closed after hold, pierce rose with saliva on one seed; the other dropped pierce and stayed on exudate. Seed 3 could already clear intact skin. Seed 2 could not, and exudate still pays. 1 of 2. Do not average them into scabs creating vampires. Do not raise bite_weight. Graph closed. Halt.
 
 ## Diet knobs (frozen)
 

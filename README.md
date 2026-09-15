@@ -27,7 +27,7 @@ Cap after recover (`--cap-on-at recover`, phi_max still 0.25): seed 3 survived t
 
 Host shift after hold (`--host-shift-at held --skin-tough 2.0 --clot-without-saliva on`, delayed-cap seeds 2 and 3): frozen diet until t_held, then tougher intact skin and clotting of pooled blood without saliva. At 10k, F stayed 0.236 / 0.234. Saliva left the negative region (1.47 / 1.55) with heme load still on. Pierce did not keep rising; it fell below the no-shift 10k. p_biter collapsed (0.005 / 0.007) because bite payoff was halved. Fruit-forever: p_biter=0, shift never armed. Halt. No further hosts.
 
-Wound scab after hold (`--wound-after-hold scab`, clot on, skin-tough 1.0): take away the wound shortcut. Seed 3: pierce rose after shift (-0.02 to 1.77), saliva 1.72, p_biter=1, F=0.234. Seed 2: pierce went more negative (-0.49), p_biter=0. That is a fail on that seed, not a cue to raise bite_weight. Fruit-forever clean. Halt.
+Wounds closed after hold, pierce rose with saliva on one seed; the other dropped pierce and stayed on exudate. Seed 3: pierce about 0 at the shift, then 1.77 at 10k, saliva with it, p_biter=1, F still 0.23. Seed 2: earlier hold, pierce 0.22 at shift, then pierce down, p_biter=0, saliva only 0.39, lived on tears/sweat. Pierce does not automatically increase when wounds close. It increases when the line can already clear intact skin. Otherwise selection keeps a non-biting exudate fly. 1 of 2 seeds. Do not average them. `bite_weight` still 1.0. Halt. Graph closed.
 
 ## Locks
 
