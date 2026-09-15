@@ -2,11 +2,24 @@
 
 Under an explicit diet ladder and an allowed population crash, does a Drosophila-like sponging labellum evolve prestomal-tooth rasping and then a costly bite, and how many generations / how deep a bottleneck does that take?
 
-k=3, seed 1, N=1,000, 2,500 generations, t_starve=5. Assortative knn: census crashed to 3 at t=6, recovered at t=28, first biter at t=211 (mean rasp 0.575, mean pierce 0.027), heme_safe rose at t=695, majority biters at t=1,468. At t=2,500: n=1,200, F=1.000, p_biter=1. Random mating, same diet and seed: extinct at t=11, min n=1. Fruit-forever to t=400: p_biter=0; digest and heme_safe did not increase. Locked logs are local: `logs/vampire_2500_s1.json`, `logs/random_2500_s1.json`.
+Six default vials (k=3, N=1,000, 2,500 generations, t_starve=5). k-NN assortative mating recovered on seeds 1 to 3 and ended at F=1.000 with a majority bite kit. Random mating recovered on seeds 2 and 3 from min n=6, showed a transient first biter, and ended at F≈0.82 with p_biter=0. Seed 1 random went extinct at t=11 (min n=1). The seed-1 knn vial is one inbred line after a 3-fly bottleneck.
 
-Closed vial of diploid cyclorrhaphan flies. Fruit is removed at `t_starve` (default 5). Most of the census starves. A rare tail can live on host exudates (tears, sweat, wounds). Over thousands of generations, additive QTLs for labellar rasp, fluid detection, saliva, host-seeking, a costly pierce, midgut proteolysis (`digest`), and heme/iron detox (`heme_safe`) can assemble a shallow-biting feeding mode. Hematophagy here is host-fluid feeding, including blood from wounds or shallow cuts.
+Seed 1 knn lock, do not restamp: census crashed to 3 at t=6, recovered at t=28, first biter at t=211 (mean rasp 0.575, mean pierce 0.027), heme_safe rose at t=695, majority biters at t=1,468. At t=2,500: n=1,200, F=1.000, p_biter=1. Fruit-forever to t=400: p_biter=0; digest and heme_safe did not increase. Logs are local: `logs/vampire_2500_s{1,2,3}.json`, `logs/random_2500_s{1,2,3}.json`.
 
-The engine is vectorized NumPy, one generation per step. Ancestral mouthparts are sponging. The only morphological path is labellum plus pseudotracheae to enlarged sclerotized prestomal teeth to rasp / pool feeding. Census may fall to `n_floor` (default 8) or to 0. Inbreeding is measured: after the crash, N may be 8 to 20. Seed 1 knn went to N=3.
+| seed | mate | min n | t_recover | t_first_biter | t_majority | t_heme_safe_rise | final F | final p_biter |
+|-----:|------|------:|----------:|--------------:|-----------:|-----------------:|--------:|--------------:|
+| 1 | knn | 3 | 28 | 211 | 1,468 | 695 | 1.000 | 1.000 |
+| 1 | random | 1 | | | | | extinct t=11 | 0 |
+| 2 | knn | 18 | 22 | 412 | 1,211 | 16 | 1.000 | 0.914 |
+| 2 | random | 6 | 16 | 162 | | | 0.821 | 0 |
+| 3 | knn | 13 | 21 | 792 | 1,301 | 901 | 1.000 | 0.998 |
+| 3 | random | 6 | 22 | 128 | | | 0.830 | 0 |
+
+On every surviving first-biter generation, mean rasp exceeded mean pierce. Seed 2 knn crossed the heme_safe mean cutoff 0.12 at t=16 while n=156, before biters; that is a small-n trip, not the later iron-tax rise on seeds 1 and 3.
+
+Closed vial of diploid cyclorrhaphan flies. Fruit is removed at `t_starve` (default 5). Most of the census starves. A rare tail can live on host exudates (tears, sweat, wounds). Additive QTLs for labellar rasp, fluid detection, saliva, host-seeking, a costly pierce, midgut proteolysis (`digest`), and heme/iron detox (`heme_safe`) can assemble a shallow-biting feeding mode. Hematophagy here is host-fluid feeding, including blood from wounds or shallow cuts.
+
+The engine is vectorized NumPy, one generation per step. Ancestral mouthparts are sponging. The only morphological path is labellum plus pseudotracheae to enlarged sclerotized prestomal teeth to rasp / pool feeding. Census may fall to `n_floor` (default 8) or to 0. Inbreeding is measured.
 
 ## Diet and fitness
 
@@ -21,7 +34,7 @@ Tear film in the vial is finite (`k_tears`, default 40). Sweat, wound, and bite 
 
 Bite carries a standing pierce cost while `energy_bite` is below `eps`. `digest` costs while host energy is below `eps`. `heme_safe` costs while `heme_load` is below `eps`. Fitness is `survive * fertility * exp(-cost) * v_load`, with `v_load` the product of `(1-s)` at homozygous hidden recessives. Survival is a logistic of energy times `v_iron`; the energy threshold hardens after starve.
 
-Default QTL order: fruit_use, fluid_detect, rasp, pierce, saliva, seek, locomotion, fertility_circuit, stab, fa, digest, heme_safe. `digest` is not saliva. Mating is random or k-NN (`k=3`) on fruit_use plus locomotion before starve, and on `{fluid_detect, rasp, pierce, seek}` after. Load is excluded from similarity. `digest` and `heme_safe` stay near ancestral until wound energy or biters rise; `t_heme_safe_rise` is recorded after `t_first_biter` when the iron tax pays.
+Default QTL order: fruit_use, fluid_detect, rasp, pierce, saliva, seek, locomotion, fertility_circuit, stab, fa, digest, heme_safe. `digest` is not saliva. Mating is random or k-NN (`k=3`) on fruit_use plus locomotion before starve, and on `{fluid_detect, rasp, pierce, seek}` after. Load is excluded from similarity.
 
 ## Defaults
 
@@ -41,11 +54,11 @@ python3.12 -m venv .venv
     --out logs/random_2500_s1.json
 ```
 
-`--fruit-forever` is the negative control. `--cap off` is default. `--bite-weight` and `--n-floor` are flags.
+Seeds 2 and 3 use the same flags with `--seed 2` or `--seed 3` and matching `--out` names. `--fruit-forever` is the negative control. `--cap off` is default. `--bite-weight` and `--n-floor` are flags.
 
-Each run writes the summary JSON and a sibling `.jsonl` (one record per generation). JSON is local; `logs/` keeps `.gitkeep` only.
+Each run writes the summary JSON and a sibling `.jsonl`. JSON is local; `logs/` keeps `.gitkeep` only.
 
-Success on seed 1 is: crash after starve (`min n <= 20` or extinction); if surviving, `t_first_biter > t_recover`; mean rasp at `t_first_biter` above mean pierce at that generation; `t_heme_safe_rise > t_first_biter`. Fruit-forever must not reach `p_biter > 0.05` by t=400, and neither `digest` nor `heme_safe` increases. Failure (extinction) is a result.
+Success on seed 1 is: crash after starve (`min n <= 20` or extinction); if surviving, `t_first_biter > t_recover`; mean rasp at `t_first_biter` above mean pierce at that generation; `t_heme_safe_rise > t_first_biter` when the cutoff is not tripped at tiny n. Fruit-forever must not reach `p_biter > 0.05` by t=400, and neither `digest` nor `heme_safe` increases. Failure (extinction) is a result.
 
 ## Non-claims
 
@@ -69,7 +82,5 @@ Success on seed 1 is: crash after starve (`min n <= 20` or extinction); if survi
 | `src/vial_sanguis/population.py` | Generation loop, ceiling, extinction |
 | `src/vial_sanguis/metrics.py` | F, phi, energies, first times |
 | `src/vial_sanguis/cli.py` | `python -m vial_sanguis run` |
-| `AGENTS.md` | Five laws |
-| `tests/` | Init, starve crash, extinction, IBD, bite cost, digest/heme, fruit-forever |
-
-Inspired by [fly_vial](https://github.com/martialsystems/fly_vial). Reimplemented; not a fork.
+| `AGENTS.md` | Five laws in pytest/VBD, no GraphForge pin |
+| `tests/` | Init, starve, extinction, IBD, bite cost, digest/heme, five laws, fruit-forever |

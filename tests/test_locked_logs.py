@@ -39,6 +39,22 @@ def test_random_seed1_crash_if_present() -> None:
     assert run["min_n"] <= 20 or run["extinct"]
 
 
+def test_seeds_2_and_3_if_present() -> None:
+    for seed in (2, 3):
+        knn = _load(f"vampire_2500_s{seed}.json")
+        rand = _load(f"random_2500_s{seed}.json")
+        if knn is None or rand is None:
+            pytest.skip("seed 2/3 local locks not generated")
+        assert knn["min_n"] <= 20 or knn["extinct"]
+        assert rand["min_n"] <= 20 or rand["extinct"]
+        if not knn["extinct"]:
+            assert knn["t_first_biter"] is not None
+            assert knn["t_recover"] is not None
+            assert int(knn["t_first_biter"]) > int(knn["t_recover"])
+            rec = next(g for g in knn["generations"] if g["t"] == knn["t_first_biter"])
+            assert rec["qtl_mean"]["rasp"] > rec["qtl_mean"]["pierce"]
+
+
 def test_fruit_forever_if_present() -> None:
     run = _load("fruit_forever_400_s1.json")
     if run is None:

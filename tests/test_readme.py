@@ -37,6 +37,11 @@ def test_readme_question_first() -> None:
     assert "majority biters at t=1,468" in text
     assert "extinct at t=11" in text
     assert "p_biter=0" in text or "p_biter=0;" in text
+    assert "Seeds 2 and 3" in text or "seeds 2 and 3" in text
+    assert "F=1.000" in text
+    assert "min n=6" in text
+    assert "one inbred line after a 3-fly bottleneck" in text
+    assert "vampire flies evolve" not in text.lower()
     agents = (REPO / "AGENTS.md").read_text(encoding="utf-8")
     assert "—" not in agents
     assert "Closed vial" in agents
@@ -44,3 +49,6 @@ def test_readme_question_first() -> None:
     assert "Census may fall" in agents
     assert "Diet ladder required" in agents
     assert "prestomal-tooth" in agents
+    assert "Do not pin GraphForge" in agents
+    assert "Do not reuse `vialforge/`" in agents or "Do not reuse vialforge" in agents
+    assert "Verify-before-done is the finish gate." in agents
