@@ -11,10 +11,12 @@ Unfreezing a diet knob is a halt.
 state: halt
 next legal node: none
 
-Origin question closed. Q1 kinship_cap finished. One 10k arm finished.
-Q2 (blocks) and Q3 (post-recovery mutation / extra QTLs) stay closed.
-An agent that opens Q2/Q3, adds factors, raises z_max, or softens phi_max
-because seed 3 died is out of spec.
+Origin closed. Q1 immediate-cap finished. Immediate-cap 10k finished.
+Cap-after-recover (user-opened; not Q2/Q3) finished. 10k on surviving seeds finished.
+
+Q2 (blocks) and Q3 (extra QTLs) stay closed.
+An agent that opens Q2/Q3, adds factors, raises z_max, or cuts phi_max
+because a seed died is out of spec.
 
 GraphForge stays unpinned. VBD is the finish gate.
 The six-vial origin headline is not obsolete.
@@ -38,8 +40,11 @@ Do not restamp. Origin seed-1 knn `t_first_biter=211`.
 - `logs/knn_kinship_phi025_1500_s{1,2,3}.json`
 - `logs/knn_kinship_phi025_fruit_forever_400_s1.json`
 - `logs/vampire_10000_s{1,2,3}.json`
+- `logs/knn_cap_after_recover_1500_s{1,2,3}.json`
+- `logs/fruit_forever_cap_after_recover_400.json`
+- `logs/knn_cap_after_recover_10000_s{2,3}.json`
 
-## Q1 table (phi_max=0.25)
+## Q1 immediate cap (phi_max=0.25)
 
 | seed | arm | min n | held | F@1500 | p_biter |
 |-----:|-----|------:|-----:|-------:|--------:|
@@ -49,15 +54,17 @@ Do not restamp. Origin seed-1 knn `t_first_biter=211`.
 
 Seed 2 kit was weak at t=1,500 (p_biter=0.013) and only fixed the kit in the 10k tail.
 
-## vampire_10000
+## Cap after recover (phi_max=0.25, n>=50 post-starve)
 
-| seed | arm | min n | held | F@1500 | F@10000 | p_biter@10000 |
-|-----:|-----|------:|-----:|-------:|--------:|--------------:|
-| 1 | knn kinship-cap | 13 | 930 | 0.244 | 0.243 | 1.000 |
-| 2 | knn kinship-cap | 12 | 1,048 | 0.240 | 0.230 | 1.000 |
-| 3 | knn kinship-cap | 2 | | extinct t=9 | | 0 |
+| seed | min n | t_kinship_on | held | F@1500 | p_biter@1500 | F@10000 | p_biter@10000 |
+|-----:|------:|-------------:|-----:|-------:|-------------:|--------:|--------------:|
+| 1 | 0 | 11 | | extinct t=12 | 0 | | |
+| 2 | 16 | 8 | 517 | 0.238 | 0.980 | 0.234 | 1.000 |
+| 3 | 13 | 8 | 884 | 0.236 | 0.857 | 0.235 | 1.000 |
 
-Pierce still moved. Saliva did not. F stayed about 0.24. Recipe is 2-of-3.
+Seed 3 survived the crash (not t=9). Seed 1 recovered to n=68 then the cap vetoed all pairs. Fruit-forever: p_biter=0, digest and heme_safe did not increase.
+
+10k readout vs immediate-cap 10k (F about 0.23 to 0.24, pierce moved, saliva negative, seed 3 dead): rasp/detect/seek still at the ceiling. Pierce still moved (seed 2: 0.71 to 1.18; seed 3: 0.44 to 0.78). Saliva still negative. F stayed off 1. Seed 3 lived. This is a cap schedule test, not added factors.
 
 ## Diet knobs (frozen)
 
@@ -66,7 +73,7 @@ c_heme=0.40, c_heme_in=0.30, beta_heme=2.0, survive_steep_fruit=8.0,
 survive_thresh_fruit=0.40, survive_steep_host=250.0,
 survive_thresh_host=0.075, n_floor=8, n_ceiling=1200.
 
-phi_max=0.25 is the Q1 cap (one numerical retune from 0.125), not a diet knob.
+phi_max=0.25 is the Q1 cap, not a diet knob. Default `--cap-on-at immediate`.
 
 Do not invent a Q4.
 Do not help random keep a kit.

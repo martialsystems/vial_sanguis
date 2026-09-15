@@ -28,6 +28,12 @@ def _parser() -> argparse.ArgumentParser:
     run.add_argument("--k", type=int, default=3)
     run.add_argument("--kinship-cap", choices=["on", "off"], default="off")
     run.add_argument("--phi-max", type=float, default=0.25)
+    run.add_argument(
+        "--cap-on-at",
+        choices=["immediate", "recover"],
+        default="immediate",
+        help="when kinship-cap is on: immediate (Q1) or after n>=50 post-starve",
+    )
     run.add_argument("--generations", type=int, default=2500)
     run.add_argument("--n", type=int, default=1000)
     run.add_argument("--seed", type=int, default=1)
@@ -81,6 +87,7 @@ def main(argv: list[str] | None = None) -> int:
         mating_mode=_mode_name(args.arm, args.mode),
         k=args.k,
         kinship_cap=args.kinship_cap == "on",
+        kinship_cap_on=str(args.cap_on_at),
         phi_max=float(args.phi_max),
         arm=args.arm,
         cap=args.cap,

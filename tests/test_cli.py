@@ -46,6 +46,7 @@ def test_cli_tiny_run(tmp_path: Path) -> None:
     assert len(lines) == len(payload["generations"])
     assert "t_held_biter" in payload
     assert "t_heme_safe_rise_mean" in payload
+    assert payload["config"]["kinship_cap_on"] == "immediate"
 
 
 def test_cli_reclock(tmp_path: Path) -> None:

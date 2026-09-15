@@ -44,6 +44,8 @@ def test_readme_question_first() -> None:
     assert "Saliva did not" in text or "saliva did not" in text
     assert "t_starve | 5" in text or "t_starve | 5 |" in text
     assert "logs/vampire_10000_s{1,2,3}.json" in text
+    assert "knn_cap_after_recover_1500" in text
+    assert "--cap-on-at recover" in text
     assert "vampire flies evolve" not in text.lower()
     agents = (REPO / "AGENTS.md").read_text(encoding="utf-8")
     assert "—" not in agents

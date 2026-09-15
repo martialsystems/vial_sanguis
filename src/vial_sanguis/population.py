@@ -8,6 +8,8 @@ from pathlib import Path
 
 import numpy as np
 
+from dataclasses import replace
+
 from vial_sanguis.config import RunConfig
 from vial_sanguis.fitness import phenotype
 from vial_sanguis.genome import FEMALE, MALE, Pop, init_population
@@ -67,14 +69,26 @@ def run_generations(
         jsonl_fp.flush()
 
     ceiling = cfg.ceiling()
+    cap_armed = bool(cfg.kinship_cap) and cfg.kinship_cap_on != "recover"
+    t_kinship_on = 0 if cap_armed else None
 
     for _step in range(cfg.generations):
         if extinct_rule(pop, float(ph.survive.mean()) if pop.n else 0.0, cfg):
             records[-1]["extinct"] = True
             break
+        if (
+            cfg.kinship_cap
+            and cfg.kinship_cap_on == "recover"
+            and not cap_armed
+            and pop.t >= cfg.t_starve
+            and pop.n >= int(cfg.kinship_recover_n)
+        ):
+            cap_armed = True
+            t_kinship_on = int(pop.t)
         # Mating axes switch at starve; refresh scale from living adults.
         sigma0 = freeze_sigma0(mating_traits(ph, pop.t, cfg), cfg)
-        pairing = pair(pop, ph, cfg, rng, sigma0)
+        mate_cfg = replace(cfg, kinship_cap=bool(cfg.kinship_cap and cap_armed))
+        pairing = pair(pop, ph, mate_cfg, rng, sigma0)
         eggs, _pair_of, _clutch = meiosis_mutate(pop, ph, pairing, cfg, rng)
         n_eggs = eggs.n
         if n_eggs == 0:
@@ -126,6 +140,7 @@ def run_generations(
         "generations": records,
         "final_t": last["t"],
         "extinct": bool(last["extinct"]),
+        "t_kinship_on": t_kinship_on,
         **times,
     }
 

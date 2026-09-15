@@ -33,6 +33,8 @@ class RunConfig:
     mating_mode: str = "assortative_knn"
     k: int = 3
     kinship_cap: bool = False
+    kinship_cap_on: str = "immediate"
+    kinship_recover_n: int = 50
     phi_max: float = 0.25
     d_cluster: float = 2.0
     m_max: int = 1

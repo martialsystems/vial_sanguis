@@ -17,6 +17,15 @@ def test_kinship_cap_off_is_default() -> None:
     assert cfg.k_tears == 40.0
     assert cfg.bite_weight == 1.0
     assert cfg.c_pierce == 0.05
+    assert cfg.c_digest == 0.40
+    assert cfg.c_heme == 0.40
+    assert cfg.c_heme_in == 0.30
+    assert cfg.beta_heme == 2.0
+    assert cfg.survive_thresh_host == 0.075
+    assert cfg.n_floor == 8
+    assert cfg.n_ceiling == 1200
+    assert cfg.kinship_cap_on == "immediate"
+    assert cfg.kinship_recover_n == 50
 
 
 def test_kinship_cap_rejects_high_phi_pairs() -> None:
