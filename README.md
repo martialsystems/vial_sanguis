@@ -29,7 +29,7 @@ Host shift after hold (`--host-shift-at held --skin-tough 2.0 --clot-without-sal
 
 Wounds closed after hold, pierce rose with saliva on one seed; the other dropped pierce and stayed on exudate. Seed 3: pierce about 0 at the shift, then 1.77 at 10k, saliva with it, p_biter=1, F still 0.23. Seed 2: earlier hold, pierce 0.22 at shift, then pierce down, p_biter=0, saliva only 0.39, lived on tears/sweat. Pierce does not automatically increase when wounds close. It increases when the line can already clear intact skin. Otherwise selection keeps a non-biting exudate fly. 1 of 2 seeds. Do not average them. `bite_weight` still 1.0. Halt. Graph closed.
 
-Scab plus exudate cap after hold (`--exudate-after-hold cap`): tears and sweat also zero after t_held. Seed 2 extinct at t=527 (shift on). The exudate refuge was carrying p_biter=0; the bite was out of reach once tears/sweat were gone. Seed 3 also extinct (t=895, n crashed 1,200 to 5 to 0 in one generation after shift). The closed vial is too hard. That is FAIL, not a cue to raise bite_weight. Fruit-forever: p_biter=0, shift never armed. Halt.
+Scab-only headline unchanged: 1 of 2 seeds raised pierce while exudate stayed open. Exudate-cap headline: closing wounds and tears/sweat together extincts both lines in one generation. Seed 2 never had a reachable bite. Seed 3's pierce rise required the exudate bridge. That is a cliff, not a host. FAIL. Do not raise bite_weight. Origin `t_first_biter=211`. `bite_weight=1.0`. Halt.
 
 ## Locks
 

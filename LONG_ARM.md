@@ -106,9 +106,8 @@ Wounds closed after hold, pierce rose with saliva on one seed; the other dropped
 | 2 | 517 | 527 | 526 | 1,200 | t=527 | 0.216 |
 | 3 | 884 | 894 | 894 | 5 | t=895 | 0.292 |
 
-Seed 2: the shortcut was the refuge. Bite out of reach once tears/sweat were gone.
-Seed 3 also died. The closed vial is too hard. FAIL, not a cue to raise bite_weight.
-Fruit-forever: p_biter=0, shift never armed. Halt. No 20k. No seed 1.
+Scab-only headline unchanged: 1 of 2 seeds raised pierce while exudate stayed open.
+Exudate-cap headline: closing wounds and tears/sweat together extincts both lines in one generation. Seed 2 never had a reachable bite (died with pierce 0.22). Seed 3's pierce rise required the exudate bridge (died with p_biter=1 and n=5). That is a cliff, not a host. FAIL. Do not raise bite_weight. Origin t_first_biter=211. bite_weight=1.0. Halt. No 20k. No seed 1.
 
 ## Diet knobs (frozen)
 
