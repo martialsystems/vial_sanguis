@@ -2,7 +2,7 @@
 
 Under an explicit diet ladder and an allowed population crash, does a Drosophila-like sponging labellum evolve prestomal-tooth rasping and then a costly bite, and how many generations / how deep a bottleneck does that take?
 
-This is not an origin of hematophagy.
+This is not an origin of hematophagy. Engine retired. Successor is [vial_sanguis2](https://github.com/martialsystems/vial_sanguis2). Cliff result stands.
 
 ## Origin
 

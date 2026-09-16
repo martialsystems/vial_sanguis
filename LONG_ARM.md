@@ -10,6 +10,8 @@ Unfreezing a diet knob is a halt.
 
 state: halt
 next legal node: none
+Successor engine: https://github.com/martialsystems/vial_sanguis2
+Do not add a third host here.
 
 Origin closed. Q1 immediate-cap finished. Immediate-cap 10k finished.
 Cap-after-recover (user-opened; not Q2/Q3) finished. 10k on surviving seeds finished.
