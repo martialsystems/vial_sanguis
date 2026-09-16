@@ -14,18 +14,15 @@ def test_readme_question_first() -> None:
         "Under an explicit diet ladder and an allowed population crash"
     )
     first_para = body.split("\n## ", 1)[0]
-    assert "This is not an origin of hematophagy." in first_para
+    assert "Engine retired" in first_para
     assert "## Origin" in text
     assert "## Long arm" in text
     assert "## Locks" in text
     assert "What it is not" not in text
     assert "—" not in text
-    assert "Non-claims" in text
-    assert "This does not evolve a real organ in 2500 generations." in text
+    assert "Non-claims" not in text
     assert "QTLs are scalar proxies" in text
-    assert "No live FlyWire / MaleCNS stepper." in text
-    assert "No pathogen transmission module in v1." in text
-    assert "log extinction instead of silently capping N." in text
+    assert "Extinction is logged" in text
     assert ".venv/bin/python -m pytest" in text
     assert "logs/vampire_2500_s1.json" in text
     assert "logs/random_2500_s1.json" in text

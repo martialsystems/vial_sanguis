@@ -2,7 +2,7 @@
 
 Under an explicit diet ladder and an allowed population crash, does a Drosophila-like sponging labellum evolve prestomal-tooth rasping and then a costly bite, and how many generations / how deep a bottleneck does that take?
 
-This is not an origin of hematophagy. Engine retired. Successor is [vial_sanguis2](https://github.com/martialsystems/vial_sanguis2). Cliff result stands.
+Engine retired. Successor is [vial_sanguis2](https://github.com/martialsystems/vial_sanguis2). Cliff result stands.
 
 ## Origin
 
@@ -97,14 +97,9 @@ python3.12 -m venv .venv
 
 `--fruit-forever` is the negative control. `--cap off` is default.
 
-## Non-claims
+## Engine
 
-- This does not evolve a real organ in 2500 generations.
-- QTLs are scalar proxies, not GRNs or imaginal-disc models.
-- No live FlyWire / MaleCNS stepper.
-- No pathogen transmission module in v1.
-- Success is: crash, exudate recovery, rasp before pierce, bite last.
-- Failure is also a result: log extinction instead of silently capping N.
+QTLs are scalar proxies. Mating and fitness use those scalars. Extinction is logged; N is not silently capped. Success metric: crash, exudate recovery, rasp before pierce, bite last.
 
 ## Files
 
