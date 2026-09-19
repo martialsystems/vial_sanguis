@@ -81,6 +81,20 @@ Diet knobs (VBD-checked; frozen):
 
 JSON is local; `logs/` keeps `.gitkeep` only.
 
+## Methods card
+
+Copied from `METHODS.yaml`.
+
+| Field | Value |
+|-------|-------|
+| Object | unconstrained evolutionary toy |
+| Status | Halt |
+| Falsifier | majority bite kit with F off 1 on at least two of three seeds without retiring the engine |
+| n / seeds | 3-seed screen; engine retired |
+| Science lock | `b7347ce` |
+| Pre-specified | false |
+
+
 ## How to run
 
 ```text
@@ -114,6 +128,8 @@ QTLs are scalar proxies. Mating and fitness use those scalars. Extinction is log
 | `src/vial_sanguis/population.py` | Generation loop, ceiling, extinction |
 | `src/vial_sanguis/metrics.py` | F, phi, energies, first times |
 | `src/vial_sanguis/cli.py` | `python -m vial_sanguis run` |
+| `METHODS.yaml` | Methods card |
+| `CITATION.cff` | Citation file; DOI empty until a deposit exists |
 | `AGENTS.md` | Five laws; VBD gate; no GraphForge pin |
 | `LONG_ARM.md` | Halt. Next legal node: none |
 | `tests/` | Init, starve, extinction, IBD, bite cost, digest/heme, clocks, five laws |

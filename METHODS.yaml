@@ -1,0 +1,16 @@
+question: Under an explicit diet ladder and an allowed population crash, does a Drosophila-like sponging labellum evolve prestomal-tooth rasping and then a costly bite, and how many generations / how deep a bottleneck does that take?
+falsifier: majority bite kit with F off 1 on at least two of three seeds without retiring the engine
+object: unconstrained evolutionary toy
+status: Halt
+system: N=1000; diet ladder; crash allowed; k=3
+data_version: closed-form QTL vial; FlyWire/MaleCNS templates not the stepper
+neuron_table: named types only
+dynamics: closed-form QTL; diet ladder
+rng: numpy.random.default_rng(seed)
+n_seeds: 3
+n_meaning: 3-seed screen; engine retired
+locked_metric: k-NN majority kit at F=1; kinship cap two of three at F about 0.24; science_lock b7347ce
+pre_specified: false
+science_lock: b7347ce
+parent_sha: "e2e22b7"
+reduction: templates not stepper; bite_weight stayed 1.0
